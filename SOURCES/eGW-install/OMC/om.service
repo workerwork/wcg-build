@@ -1,0 +1,12 @@
+[Unit]
+Description=Baicells WCG OM Service
+Requires=network.target redis_wcg.service
+After=network.target redis_wcg.service
+
+[Service]
+Type=forking
+ExecStart=/root/eGW/OMC/startOm.sh
+ExecStop=/root/eGW/OMC/stopOm.sh
+
+[Install]
+WantedBy=multi-user.target
