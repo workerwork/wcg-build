@@ -44,7 +44,12 @@ function ltegwd() {
 }
 
 function sctpd() {
-    /root/eGW/sctpd &
+    sctpd_p=$(ps -ef |grep 'gwrec'$ |awk '{ print $8 }')
+    if [[ $sctpd_p != '/root/eGW/sctpd' ]];then
+        local tpid=$(pidof sctpd)
+        [[ $tpid ]] && kill -9 $tpid
+		    /root/eGW/sctpd &
+    fi
 }
 
 function KPIMain() {
@@ -58,7 +63,7 @@ function process() {
     egw_monitor
     gtp_ko
     gwrec
-    ltegwd
     sctpd
+    ltegwd
     KPIMain
 }
