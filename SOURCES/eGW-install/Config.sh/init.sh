@@ -11,6 +11,7 @@ function init_fold() {
     [[ ! -d /root/eGW/Logs/history ]] && mkdir -p /root/eGW/Logs/history
     [[ ! -d /root/eGW/Logs/keepalived ]] && mkdir -p /root/eGW/Logs/keepalived
     [[ ! -d /root/eGW/Logs/ltegwd ]] && mkdir -p /root/eGW/Logs/ltegwd
+    [[ ! -d /root/eGW/Logs/sctpd ]] && mkdir -p /root/eGW/Logs/sctpd
     [[ ! -d /root/eGW/Logs/tcpdump ]] && mkdir -p /root/eGW/Logs/tcpdump
     [[ ! -d /root/eGW/Logs/vtysh ]] && mkdir -p /root/eGW/Logs/vtysh
     [[ ! -d /root/eGW/Logs/watchdog ]] && mkdir -p /root/eGW/Logs/watchdog

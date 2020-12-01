@@ -120,6 +120,7 @@ function watchdog_all() {
         egw_cdr
         egw_imsi
         egw_log
+	egw_sctpd
     else
         echo "watchdog not run"
     fi

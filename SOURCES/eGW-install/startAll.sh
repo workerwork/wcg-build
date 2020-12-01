@@ -18,7 +18,7 @@ source $CUR_DIR/init.sh && init
 source $CUR_DIR/watchdog.sh && watchdog_gwrec &
 
 #start sctpd
-source $CUR_DIR/watchdog.sh && watchdog_sctpd &
+#source $CUR_DIR/watchdog.sh && watchdog_sctpd &
 
 #configure keepalived
 source $CUR_DIR/keepalived.sh && keepalived
