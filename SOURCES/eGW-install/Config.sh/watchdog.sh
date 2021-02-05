@@ -165,15 +165,3 @@ function watchdog_gwrec() {
         done
     fi
 }
-#new
-function watchdog_sctpd(){
-        sctpd_dog=$(ps -ef |grep '/bin/bash - /root/eGW/Config.sh/watchdog_ps.sh ps_sctpd watchdog_ltegwd_timer'$ |awk '{ print $10 }')
-    if [[ $sctpd_dog != '/root/eGW/Config.sh/watchdog_ps.sh' ]]; then
-        while :
-        do
-#           watchdog_gotty
-            egw_sctpd
-            sleep 30
-        done
-    fi
-}
