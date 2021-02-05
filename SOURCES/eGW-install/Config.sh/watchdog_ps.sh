@@ -83,19 +83,6 @@ function ps_gwrec() {
         #find /root/eGW -maxdepth 1 -name "*.imsi" -print0 | xargs -0I {} mv -f {} /root/eGW/ImsiFiles
     fi
 }
-#new
-function ps_sctpd() {
-    sctpd=$(ps -ef |grep 'sctpd'$ |awk '{ print $8 }')
-    if [[ $sctpd != '/root/eGW/sctpd' ]];then
-        /root/eGW/Tools/autoinfo &
-        time_all=`date +%Y-%m-%d' '%H:%M:%S`
-        time_Ymd=`date +%Y%m%d`
-        echo $time_all " watchdog: sctpd restart" >> /root/eGW/Logs/watchdog/ps_${time_Ymd}.log
-        local tpid=$(pidof sctpd)
-        [[ $tpid ]] && kill -9 $tpid
-                    /root/eGW/sctpd &
-    fi
-}
 
 function ipsec_test() {
 	if [[ $redisPass ]]; then
