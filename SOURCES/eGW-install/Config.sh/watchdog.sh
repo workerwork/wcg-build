@@ -41,14 +41,6 @@ function egw_gwrec() {
     [[ -z $(ps -ef | grep '/bin/bash - /root/eGW/Config.sh/watchdog_ps.sh ps_gwrec watchdog_ltegwd_timer'$ |awk '{ print $10 }') ]] && \
     $watch ps_gwrec watchdog_ltegwd_timer &
 }
-#new
-function egw_sctpd() {
-    source /root/eGW/Config.sh/watchdog_ps.sh
-    export -f ps_sctpd
-    local watch="/root/eGW/Config.sh/watchdog_ps.sh"
-    [[ -z $(ps -ef | grep '/bin/bash - /root/eGW/Config.sh/watchdog_ps.sh ps_sctpd watchdog_ltegwd_timer'$ |awk '{ print $10 }') ]] && \
-    $watch ps_sctpd watchdog_ltegwd_timer &
-}
 
 function egw_cdr() {
     source /root/eGW/Config.sh/watchdog_cdr.sh
@@ -78,6 +70,7 @@ function egw_log() {
     export -f history_log
     export -f keepalived_log
     export -f ltegwd_log
+    export -f sctpd_log
     export -f manage_log
     export -f report_log
     export -f monitor_log
@@ -92,6 +85,8 @@ function egw_log() {
     $watch keepalived_log watchdog_keepalived_log_timer watchdog_keepalived_log_number &
     [[ -z $(ps -ef | grep "ltegwd_log watchdog_ltegwd_log_timer watchdog_ltegwd_log_number$") ]] && \
     $watch ltegwd_log watchdog_ltegwd_log_timer watchdog_ltegwd_log_number &
+    [[ -z $(ps -ef | grep "sctpd_log watchdog_sctpd_log_timer watchdog_sctpd_log_number$") ]] && \
+    $watch sctpd_log watchdog_sctpd_log_timer watchdog_sctpd_log_number &
     [[ -z $(ps -ef | grep "manage_log watchdog_manage_log_timer watchdog_manage_log_number$") ]] && \
     $watch manage_log watchdog_manage_log_timer watchdog_manage_log_number &
     [[ -z $(ps -ef | grep "report_log watchdog_report_log_timer watchdog_report_log_number$") ]] && \
@@ -120,7 +115,6 @@ function watchdog_all() {
         egw_cdr
         egw_imsi
         egw_log
-	egw_sctpd
     else
         echo "watchdog not run"
     fi

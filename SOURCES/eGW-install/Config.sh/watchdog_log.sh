@@ -75,6 +75,11 @@ function ltegwd_log() {
     ls -lt /root/eGW/Logs/ltegwd/egw.log_* 2>/dev/null | awk -v ltegwd_num=$ltegwd_num '{if(NR>ltegwd_num){print $9}}' | xargs rm -rf	
 }
 
+function sctpd_log() {
+    sctpd_num=$1
+    ls -lt /root/eGW/Logs/sctpd/sctpd.log_* 2>/dev/null | awk -v sctpd_num=$sctpd_num '{if(NR>sctpd_num){print $9}}' | xargs rm -rf	
+}
+
 function manage_log() {
     manage_num=$1
     ls -lt /root/eGW/Logs/omcapi/manage/egw_manage.log_* 2>/dev/null | awk -v manage_num=$manage_num '{if(NR>manage_num){print $9}}' | xargs rm -rf
