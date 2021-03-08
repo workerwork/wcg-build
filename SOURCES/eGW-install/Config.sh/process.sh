@@ -59,6 +59,15 @@ function process() {
     gtp_ko
     gwrec
     sctpd
+    while :
+    do
+        sctpd_process=$(ps -ef |grep 'sctpd'$ |awk '{ print $8 }')
+        if [[ $sctpd_process != '/root/eGW/sctpd' ]];then       
+            continue;
+        else
+            break;
+        fi
+    done
     ltegwd
     KPIMain
 }
