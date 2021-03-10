@@ -52,12 +52,6 @@ function KPIMain() {
 }
 
 function process() {
-    egw_manage
-    egw_manage_logger
-    egw_report
-    egw_monitor
-    gtp_ko
-    gwrec
     sctpd
     while :
     do
@@ -68,6 +62,13 @@ function process() {
             break;
         fi
     done
+    egw_manage
+    egw_manage_logger
+    egw_report
+    egw_monitor
+    gtp_ko
+    gwrec
+
     ltegwd
     KPIMain
 }
