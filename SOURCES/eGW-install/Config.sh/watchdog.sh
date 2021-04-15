@@ -124,10 +124,10 @@ function watchdog_gotty() {
     local date_today=$(date -d today +"%Y%m%d")
     local user_all=$(awk -F ':' '/user-all/{print $2}' /root/eGW/gotty.conf)
     local passwd_prefix=$(awk -F ':' '/passwd-prefix/{print $2}' /root/eGW/gotty.conf)
-    if [[ -z $(ps -ef|grep "/root/eGW/gotty -w -p 50685 --title-format WCG WEB-CLI /root/eGW/vtysh$") ]];then
+    if [[ -z $(ps -ef|grep "/root/eGW/gotty -w -p 50685 -c $user_all:$passwd_prefix@$date_today --title-format WCG WEB-CLI /root/eGW/vtysh$") ]];then
         pkill gotty
         #/root/eGW/gotty -w -p 50685 -c $user_all:$passwd_prefix@$date_today --title-format "WCG WEB-CLI" /root/eGW/vtysh &
-        /root/eGW/gotty -w -p 50685 --title-format "WCG WEB-CLI" /root/eGW/vtysh &
+        /root/eGW/gotty -w -p 50685 -c $user_all:$passwd_prefix@$date_today --title-format "WCG WEB-CLI" /root/eGW/vtysh &
     fi
 }
 
