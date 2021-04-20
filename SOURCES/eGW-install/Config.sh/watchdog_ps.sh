@@ -47,23 +47,17 @@ function ps_ltegwd() {
 		fi
         /root/eGW/ltegwd 0 1 &
         #find /root/eGW -maxdepth 1 -name "*.imsi" -print0 | xargs -0I {} mv -f {} /root/eGW/ImsiFiles
-    else		
+    	else		
 		if [[ $redisPass ]]; then
         	ltegwd_state=$(redis-cli -h 127.0.0.1 -p 9736 hget -a $redisPass eGW-status eGW-ps-state-ltegwd)
         	if [[ $ltegwd_state == 1 ]];then
-        	    local egw_licensestatus=$(redis-cli -h 127.0.0.1 -p 9736 get -a $redisPass egwLicenseStatus | awk -F ':' '{print $2}')
-        	    if [[ $egw_licensestatus == 0 ]];then
-        	        redis-cli -h 127.0.0.1 -p 9736 -a $redisPass lpush eGW-alarm-ps ltegwd:0
-        	    fi
+        	    redis-cli -h 127.0.0.1 -p 9736 -a $redisPass lpush eGW-alarm-ps ltegwd:0
         	    redis-cli -h 127.0.0.1 -p 9736 -a $redisPass hset eGW-status eGW-ps-state-ltegwd 0
         	fi
 		else
         	ltegwd_state=$(redis-cli -h 127.0.0.1 -p 9736 hget eGW-status eGW-ps-state-ltegwd)
-        	if [[ $ltegwd_state == 1 ]];then
-        	    local egw_licensestatus=$(redis-cli -h 127.0.0.1 -p 9736 get egwLicenseStatus | awk -F ':' '{print $2}')
-        	    if [[ $egw_licensestatus == 0 ]];then
-        	        redis-cli -h 127.0.0.1 -p 9736 lpush eGW-alarm-ps ltegwd:0
-        	    fi
+        	if [[ $ltegwd_state == 1 ]]; then
+        	    redis-cli -h 127.0.0.1 -p 9736 lpush eGW-alarm-ps ltegwd:0
         	    redis-cli -h 127.0.0.1 -p 9736 hset eGW-status eGW-ps-state-ltegwd 0
         	fi
 		fi
