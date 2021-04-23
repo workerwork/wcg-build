@@ -30,7 +30,7 @@ function watch_ps() {
 [[ $1 ]] && watch_ps $1 $2
 
 function ps_ltegwd() {
-    ltegwd=$(ps -ef |grep 'ltegwd 0 1'$ |awk '{ print $8 }')
+    ltegwd=$(ps -ef |grep '/root/eGW/ltegwd'|grep -v 'grep' |awk '{ print $8 }')
  	if [[ $ltegwd != '/root/eGW/ltegwd' ]] && [[ -f /root/eGW/lo.bin ]] && [[ -f /root/eGW/ls.bin ]];then       
         /root/eGW/Tools/autoinfo &
         time_all=`date +%Y-%m-%d' '%H:%M:%S`
@@ -45,7 +45,8 @@ function ps_ltegwd() {
         	redis-cli -h 127.0.0.1 -p 9736 hset eGW-status eGW-ps-state-ltegwd 1
         	redis-cli -h 127.0.0.1 -p 9736 lpush eGW-alarm-ps ltegwd:1
 		fi
-        /root/eGW/ltegwd 0 1 &
+        . /root/eGW/Config.sh/process.sh
+        ltegwd
         #find /root/eGW -maxdepth 1 -name "*.imsi" -print0 | xargs -0I {} mv -f {} /root/eGW/ImsiFiles
     	else		
 		if [[ $redisPass ]]; then
@@ -124,7 +125,9 @@ function ipsec_test() {
                 /root/eGW/Tools/egwTool -P | \
                 awk -v ip=$ip -v ip_conf=$ip_conf '{if($1~/gtpu-uplink/ && $3==ip && $3!="ipv6"){system("/root/eGW/Tools/egwTool -f "$3":"ip_conf);exit}}'
             done
-            pkill ltegwd && /root/eGW/ltegwd 0 1 &
+            pkill ltegwd
+            . /root/eGW/Config.sh/process.sh
+            ltegwd
 
             time_all=`date +%Y-%m-%d' '%H:%M:%S`
             time_Ymd=`date +%Y%m%d`
@@ -139,7 +142,9 @@ function ipsec_test() {
 		redis-cli -h 127.0.0.1 -p 9736 hset eGW-status eGW-ipsec-state-uplink 0
 	    fi
 
-	    pkill ltegwd && /root/eGW/ltegwd 0 1 &
+        pkill ltegwd
+        . /root/eGW/Config.sh/process.sh
+        ltegwd
 	    time_all=`date +%Y-%m-%d' '%H:%M:%S`
 	    time_Ymd=`date +%Y%m%d`
 	    echo $time_all " watchdog: ipsec_addr changed" >> /root/eGW/Logs/watchdog/ps_${time_Ymd}.log

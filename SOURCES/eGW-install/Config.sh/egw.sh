@@ -93,7 +93,9 @@ function ipsec_ipaddr() {
             /root/eGW/Tools/egwTool -P | \
             awk -v ip=$ip -v ip_conf="$ip_conf" -v num=$num '{if($1~/gtpu-uplink/ && $3==ip){system("/root/eGW/Tools/egwTool -S GTPU:"num":1:2:"ip_conf);exit}}'
         done
-        pkill ltegwd && /root/eGW/ltegwd 0 1 &
+        pkill ltegwd
+        . /root/eGW/Config.sh/process.sh
+        ltegwd
     elif [[ $ipsec_uplink == "disable" ]] && [[ $ipsec_uplink_flag == "1" ]];then
         local ip_conf=$(cat $CDIR/config.save | awk '/ip_ipsec/{print $2}')
         [[ ! $(ipsec status) ]] && ipsec start && sleep 2
@@ -138,7 +140,9 @@ function ipsec_ipaddr() {
 		else
 				redis-cli -h 127.0.0.1 -p 9736 hset eGW-status eGW-ipsec-state-uplink 0
 		fi
-        pkill ltegwd && /root/eGW/ltegwd 0 1 &
+        pkill ltegwd
+        . /root/eGW/Config.sh/process.sh
+        ltegwd
     fi
 }
 
