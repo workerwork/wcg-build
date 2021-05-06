@@ -6,7 +6,7 @@
 #########################################################################################
 redisPass=`cat /root/eGW/redis/redis_wcg.conf | awk '/^requirepass/{print $2}'`
 function init_fold() {
-    [[ ! -d /root/eGW/CDR/cdrDat ]] && mkdir -p /root/eGW/CDR/cdrDat
+    #[[ ! -d /root/eGW/CDR/cdrDat ]] && mkdir -p /root/eGW/CDR/cdrDat
     [[ ! -d /root/eGW/ImsiFiles ]] && mkdir -p /root/eGW/ImsiFiles
     [[ ! -d /root/eGW/Logs/history ]] && mkdir -p /root/eGW/Logs/history
     [[ ! -d /root/eGW/Logs/keepalived ]] && mkdir -p /root/eGW/Logs/keepalived
