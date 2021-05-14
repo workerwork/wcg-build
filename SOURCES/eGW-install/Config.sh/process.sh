@@ -40,7 +40,7 @@ function gwrec() {
 }
 
 function ltegwd() {
-    /root/eGW/ltegwd 8 4 &
+    /root/eGW/ltegwd 4 &
 }
 
 function sctpd() {
