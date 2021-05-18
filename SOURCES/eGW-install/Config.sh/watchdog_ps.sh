@@ -66,7 +66,7 @@ function ps_ltegwd() {
 }
 
 function ps_gwrec() {
-    gwrec=$(ps -ef |grep 'gwrec'$ |awk '{ print $8 }')
+    gwrec=$(ps -ef |grep 'gwrec'$ |grep -v 'grep' |awk '{ print $8 }')
     if [[ $gwrec != '/root/eGW/gwrec' ]] && [[ -f /root/eGW/lo.bin ]] && [[ -f /root/eGW/ls.bin ]];then
         /root/eGW/Tools/autoinfo &
         time_all=`date +%Y-%m-%d' '%H:%M:%S`
