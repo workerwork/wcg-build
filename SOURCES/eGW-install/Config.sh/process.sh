@@ -54,7 +54,7 @@ function process() {
     start_egw_manage_logger && export -f start_egw_manage_logger
     start_egw_report && export -f start_egw_report
     start_egw_monitor && export -f start_egw_monitor
-    start_gtp_ko
+    start_gtp_ko && export -f start_gtp_ko
     start_ltegwd && export -f start_ltegwd
     start_sctpd && export -f start_sctpd
     start_KPIMain && export -f start_KPIMain
