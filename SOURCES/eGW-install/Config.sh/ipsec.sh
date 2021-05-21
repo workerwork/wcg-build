@@ -1,36 +1,38 @@
 #!/bin/bash -
 #########################################################################################
 # ipsec.sh
-# version:1.1
-# update:20181026
+# version:5.0
+# update:20210520
 #########################################################################################
+IPSEC_DIR="/root/eGW/IPSEC/"
+
 function check_ip() {
-	IP=$1
-	ip_check=$(echo $IP|grep -E "^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$")
-	if [[ -z $ip_check ]];then
-		echo "IP address must be 1-3 digits!"
-		exit 1
-	fi
-	ipaddr=$1
-	a=`echo $ipaddr|awk -F . '{print $1}'`
-	b=`echo $ipaddr|awk -F . '{print $2}'`
-	c=`echo $ipaddr|awk -F . '{print $3}'`
-	d=`echo $ipaddr|awk -F . '{print $4}'`
-	for num in $a $b $c $d
-	do
-	  if [ $num -gt 255 ] || [ $num -lt 0 ];then
-		echo "$ipaddr,the field $num is error!"
+    IP=$1
+    ip_check=$(echo $IP|grep -E "^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$")
+    if [[ -z $ip_check ]];then
+        echo "IP address must be 1-3 digits!"
         exit 1
-	  fi
-	done
+    fi
+    ipaddr=$1
+    a=`echo $ipaddr|awk -F . '{print $1}'`
+    b=`echo $ipaddr|awk -F . '{print $2}'`
+    c=`echo $ipaddr|awk -F . '{print $3}'`
+    d=`echo $ipaddr|awk -F . '{print $4}'`
+    for num in $a $b $c $d
+    do
+        if [ $num -gt 255 ] || [ $num -lt 0 ];then
+            echo "$ipaddr,the field $num is error!"
+            exit 1
+        fi
+    done
 }
 
 function init_fold() {
-    [[ ! -d /root/eGW/IPSEC/ipxs_bak ]] && mkdir -p /root/eGW/IPSEC/ipxs_bak
+    [[ ! -d $IPSEC_DIR/ipxs_bak ]] && mkdir -p $IPSEC_DIR/ipxs_bak
 }
 
 function add_ipxs() {
-    [[ $(ls /root/eGW/IPSEC/*.ipxs) ]] 2>/dev/null && mv -f /root/eGW/IPSEC/*.ipxs /root/eGW/IPSEC/ipxs_bak
+    [[ $(ls $IPSEC_DIR/*.ipxs) ]] 2>/dev/null && mv -f $IPSEC_DIR/*.ipxs $IPSEC_DIR/ipxs_bak
     ipsec status &>/dev/null || return 1
     local add_ip=$(ipsec status | awk '/===/{print $4}' | awk -F '/' '{print $1}')
     if [[ $add_ip ]];then
@@ -42,15 +44,15 @@ function add_ipxs() {
             local ipxs_o=$(ip xfrm state | grep "spi 0x$spis_o" -B1 -A3)
             local src_i=$(echo $ipxs_i | awk '{print $2}')
             local dst_i=$(echo $ipxs_i | awk '{print $4}')
-            echo $ipxs_o > /root/eGW/IPSEC/$src_i-$dst_i-$ip-$spis_i-$spis_o.ipxs
-            echo $ipxs_i >> /root/eGW/IPSEC/$src_i-$dst_i-$ip-$spis_i-$spis_o.ipxs
+            echo $ipxs_o > $IPSEC_DIR/$src_i-$dst_i-$ip-$spis_i-$spis_o.ipxs
+            echo $ipxs_i >> $IPSEC_DIR/$src_i-$dst_i-$ip-$spis_i-$spis_o.ipxs
         done
     fi
 }
 
 function del_ipxs() {
     ipxs_num=$1
-    ls -lt /root/eGW/IPSEC/ipxs_bak/*.ipxs 2>/dev/null | awk -v ipxs_num=$ipxs_num '{if(NR>ipxs_num){print $9}}' | xargs rm -rf
+    ls -lt $IPSEC_DIR/ipxs_bak/*.ipxs 2>/dev/null | awk -v ipxs_num=$ipxs_num '{if(NR>ipxs_num){print $9}}' | xargs rm -rf
 }
 
 function ipsec_ipxs() {
@@ -156,10 +158,10 @@ function parse_ipxs() {
         ipxs_o)
             [[ $ipxs_o ]] && echo $ipxs_o;;
         ipxs)
-			ip xfrm state | grep "spi 0x$spis_i" -B1 -A3
-			ip xfrm state | grep "spi 0x$spis_o" -B1 -A3
-#            [[ $ipxs_o ]] && echo $ipxs_o
-#           [[ $ipxs_i ]] && echo $ipxs_i;;
+            ip xfrm state | grep "spi 0x$spis_i" -B1 -A3
+            ip xfrm state | grep "spi 0x$spis_o" -B1 -A3
+            #[[ $ipxs_o ]] && echo $ipxs_o
+            #[[ $ipxs_i ]] && echo $ipxs_i;;
     esac    
 }
 
@@ -168,16 +170,17 @@ function parse_ipxs() {
 ARGS=`getopt -o hvi:p:ls: --long help,version,ipsecip:,parse:,list,sourceip: -- "$@"`
 if [ $? != 0 ] ; then /root/eGW/Config.sh/ipsec.sh -h ; exit 1 ; fi
 eval set -- "$ARGS"
-while true;do
+while true
+do
     case "$1" in
         -i|--ipsecip)
             ipsec_ip=$2
-			check_ip $ipsec_ip
-			flag=`ipsec status | awk '/===/{print $2  $3 $4}'| grep $ipsec_ip`
-			if [[ -z $flag ]]; then
-				echo "No ipsec tunnel built with this ipsec IP!"
-				exit
-			fi
+            check_ip $ipsec_ip
+            flag=`ipsec status | awk '/===/{print $2  $3 $4}'| grep $ipsec_ip`
+            if [[ -z $flag ]]; then
+                echo "No ipsec tunnel built with this ipsec IP!"
+                exit
+            fi
             shift 2;;
         -p|--parse)
             if [[ $ipsec_ip ]];then
@@ -191,12 +194,12 @@ while true;do
             shift;;
         -s|--sourceip)
             source_ip=$2
-			check_ip $source_ip
-			flag1=`ipsec status | awk '/ESTABLISHED/{print $6}'| grep $source_ip`
-			if [[ -z $flag1 ]]; then
-				echo "No ipsec tunnel built with this source IP!"
-				exit
-			fi
+            check_ip $source_ip
+            flag1=`ipsec status | awk '/ESTABLISHED/{print $6}'| grep $source_ip`
+            if [[ -z $flag1 ]]; then
+                echo "No ipsec tunnel built with this source IP!"
+                exit
+            fi
             shift 2;;
         -v|--version)
             echo "version: 1.0"

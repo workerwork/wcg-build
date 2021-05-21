@@ -104,14 +104,9 @@ rpm_type=$1
 
 #check kernel
 function kernel_chk() {
-    ver_std1="3.10.0-514.el7.centos.x86_64"
-    ver_std2="3.10.0-1062.el7.centos.x86_64"
-    ver_std3="3.10.0-514b.el7.centos.x86_64"
-    ver_std4="3.10.0-1127c.el7.centos.x86_64"
+    ver_std="3.10.0-1127c.el7.x86_64"
     ver_kernel=$(uname -r)
-    #echo "kernel for WCG: $ver_std"
-    #echo "system kernel: $ver_kernel"
-    if [[ $ver_kernel != $ver_std1 ]] && [[ $ver_kernel != $ver_std2 ]] && [[ $ver_kernel != $ver_std3 ]] && [[ $ver_kernel != $ver_std4 ]];then
+    if [[ $ver_kernel != $ver_std ]];then
         action "system kernel check" /bin/false
         #echo "system kernel must be $ver_std1 or $ver_std2, please check!"
         exit 1
@@ -405,6 +400,7 @@ function post_WCG_ins() {
     #config_lnk_set
     mkdir_history
     systemctl restart monitor.service
+    systemctl restart om.service
 }
 
 post_WCG_ins

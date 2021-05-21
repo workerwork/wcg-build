@@ -1,74 +1,61 @@
 #!/bin/bash -
 #########################################################################################
 # process.sh
-# version:3.2
-# update:20180625
+# version:5.0
+# update:20210520
 #########################################################################################
-function egw_manage() {
-    spawn-fcgi -a 127.0.0.1 -p 8089 -f /root/eGW/OMC/egw_manage
+function start_egw_manage() {
+    exec_egw_manage="$OMC_DIR/egw_manage"
+    spawn-fcgi -a 127.0.0.1 -p 8089 -f $exec_egw_manage
 }
 
-function egw_report() {
-    /root/eGW/OMC/egw_report &
+function start_egw_report() {
+    exec_egw_report="$OMC_DIR/egw_report"
+    $exec_egw_report &
 }
 
-function egw_manage_logger() {
-    /root/eGW/OMC/egw_manage_logger &
+function start_egw_manage_logger() {
+    exec_egw_manage_logger="$OMC_DIR/egw_manage_logger"
+    $exec_egw_manage_logger &
 }
 
-function egw_monitor() {
-    /root/eGW/OMC/egw_monitor &
+function start_egw_monitor() {
+    exec_egw_monitor="$OMC_DIR/egw_monitor"
+    $exec_egw_monitor &
 }
 
-function gtp_ko() {
+function start_gtp_ko() {
     lsmod | grep gtp_relay
     if [[ $? == 0 ]];then
-        rmmod /root/eGW/gtp-relay.ko
-        insmod /root/eGW/gtp-relay.ko
+        rmmod $GTP_KO
+        insmod $GTP_KO
     else
-        insmod /root/eGW/gtp-relay.ko
+        insmod $GTP_KO
     fi
 }
 
-function gwrec() {
-    gwrec_p=$(ps -ef |grep 'gwrec'$ |awk '{ print $8 }')
-    if [[ $gwrec_p != '/root/eGW/gwrec' ]] && [[ -f /root/eGW/lo.bin ]] && [[ -f /root/eGW/ls.bin ]];then
-        local tpid=$(pidof gwrec)
-        [[ $tpid ]] && kill -9 $tpid
-		    /root/eGW/gwrec &
-    fi
+function start_ltegwd() {
+    exec_ltegwd="$BASE_DIR/ltegwd 4"
+    $exec_ltegwd &
 }
 
-function ltegwd() {
-    /root/eGW/ltegwd 4 &
+function start_sctpd() {
+    exec_sctpd="$BASE_DIR/sctpd"
+    $exec_sctpd &
 }
 
-function sctpd() {
-    /root/eGW/sctpd &
-}
-
-function KPIMain() {
-    /root/eGW/OMC/kpiMain &
+function start_KPIMain() {
+    exec_KPIMain="$OMC_DIR/kpiMain"
+    $exec_KPIMain &
 }
 
 function process() {
-    sctpd
-    while :
-    do
-        sctpd_process=$(ps -ef |grep 'sctpd'$ |awk '{ print $8 }')
-        if [[ $sctpd_process != '/root/eGW/sctpd' ]];then       
-            continue;
-        else
-            break;
-        fi
-    done
-    egw_manage
-    egw_manage_logger
-    egw_report
-    egw_monitor
-    gtp_ko
-    gwrec
-
-    ltegwd
-    KPIMain
+    start_egw_manage
+    start_egw_manage_logger
+    start_egw_report
+    start_egw_monitor
+    start_gtp_ko
+    start_ltegwd
+    start_sctpd
+    start_KPIMain
 }

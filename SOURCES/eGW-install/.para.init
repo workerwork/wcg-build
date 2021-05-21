@@ -15,7 +15,9 @@ config_ipsec_downlink_switch = disable
 
 #watchdog
 watchdog_switch = enable
+watchdog_gwrec_timer = 5
 watchdog_ltegwd_timer = 5
+watchdog_sctpd_timer = 5
 watchdog_manage_timer = 5
 watchdog_manage_logger_timer = 5
 watchdog_report_timer = 5

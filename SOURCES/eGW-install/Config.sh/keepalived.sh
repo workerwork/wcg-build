@@ -1,36 +1,26 @@
 #!/bin/bash -
 #########################################################################################
 # keepalived.sh
-# version:4.1
-# update:20181023
+# version:5.0
+# update:20210520
 ##########################################################################################
-redisPass=`cat /root/eGW/redis/redis_wcg.conf | awk '/^requirepass/{print $2}'`
-LOG_PATH=/root/eGW/Logs/keepalived
-NOTIFY=$1
+LOG_PATH="$LOG_DIR/keepalived"
 
 function keepalived() {
-    local ha_switch=$(awk -F ' = ' '/^ha_switch/{print $2}' /root/eGW/ha.conf)
+    local ha_switch=$(awk -F ' = ' '/^ha_switch/{print $2}' $HA_CONF)
     if [[ $ha_switch == "enable" ]];then
         systemctl enable keepalived_wcg
         systemctl start keepalived_wcg
-        if [[ ! -f /root/eGW/.ha.status ]];then
-            echo "MASTER" > /root/eGW/.ha.status
+        if [[ ! -f $HA_STATUS ]];then
+            echo "MASTER" > $HA_STATUS
         fi
-        local ha_status=$(cat /root/eGW/.ha.status)
+        local ha_status=$(cat $HA_STATUS)
         if [[ $ha_status == "MASTER" ]];then
-			if [[ $redisPass ]]; then
-					redis-cli -h 127.0.0.1 -p 9736 -a $redisPass slaveof no one
-			else
-					redis-cli -h 127.0.0.1 -p 9736 slaveof no one
-			fi
+            redis-cli -h 127.0.0.1 -p 9736 -a "$redisPass" slaveof no one
             echo "local server is master,go on!"    
         elif [[ $ha_status == "BACKUP" ]];then
-            local ha_slave=$(awk -F ' = ' '/^slaveip/{print $2}' /root/eGW/ha.conf)
-			if [[ $redisPass ]]; then
-            		redis-cli -h 127.0.0.1 -p 9736 -a $redisPass slaveof $ha_slave 9736
-			else
-          		  	redis-cli -h 127.0.0.1 -p 9736 slaveof $ha_slave 9736
-			fi
+            local ha_slave=$(awk -F ' = ' '/^slaveip/{print $2}' $HA_CONF)
+            redis-cli -h 127.0.0.1 -p 9736 -a "$redisPass" slaveof $ha_slave 9736
             [[ $(ipsec status) ]] && ipsec stop
             echo "local server is backup,exit!"
             exit 0
@@ -45,7 +35,7 @@ function keepalived() {
 }
 
 function to_master() {
-    echo "MASTER" > /root/eGW/.ha.status
+    echo "MASTER" > $HA_STATUS
     systemctl restart monitor
     time_all=`date +%Y-%m-%d' '%H:%M:%S`
     time_Ymd=`date +%Y%m%d`
@@ -53,7 +43,7 @@ function to_master() {
 }
 
 function to_backup() {
-    echo "BACKUP" > /root/eGW/.ha.status
+    echo "BACKUP" > $HA_STATUS
     systemctl restart monitor
     time_all=`date +%Y-%m-%d' '%H:%M:%S`
     time_Ymd=`date +%Y%m%d`
@@ -61,7 +51,7 @@ function to_backup() {
 }
 
 function to_fault() {
-    echo "FAULT" > /root/eGW/.ha.status
+    echo "FAULT" > $HA_STATUS
     systemctl restart monitor
     time_all=`date +%Y-%m-%d' '%H:%M:%S`
     time_Ymd=`date +%Y%m%d`
@@ -69,7 +59,7 @@ function to_fault() {
 }
 
 function to_stop() {
-    echo "STOP" > /root/eGW/.ha.status
+    echo "STOP" > $HA_STATUS
     systemctl restart monitor
     time_all=`date +%Y-%m-%d' '%H:%M:%S`
     time_Ymd=`date +%Y%m%d`
@@ -77,7 +67,7 @@ function to_stop() {
 }
 
 function notify() {
-    case $NOTIFY in
+    case $1 in
         "master")
         to_master
         ;;
