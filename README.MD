@@ -1,4 +1,4 @@
-## 使用说明
+## 2.0使用说明
 
 ### 替换修改rpmbuild/SOURCES/eGW-install中的文件
 
