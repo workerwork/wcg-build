@@ -14,3 +14,7 @@ Usage:
     -b/--base(可选)    #制作基础版本包 
 
 ### 在rpmbuild路径下会生成rpm包
+
+<注意>
+
+如果生成的包不包含"centos"字样，可以修改/etc/rpm/macros.dist的"%dist"字段为"el7.centos"
