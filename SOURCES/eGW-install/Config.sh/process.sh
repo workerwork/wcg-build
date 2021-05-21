@@ -49,6 +49,10 @@ function start_KPIMain() {
     $exec_KPIMain &
 }
 
+function start_autoinfo() {
+    $TOOLS_DIR/autoinfo &
+}
+
 function process() {
     start_egw_manage && export -f start_egw_manage
     start_egw_manage_logger && export -f start_egw_manage_logger
@@ -58,4 +62,5 @@ function process() {
     start_ltegwd && export -f start_ltegwd
     start_sctpd && export -f start_sctpd
     start_KPIMain && export -f start_KPIMain
+    export -f start_autoinfo
 }
