@@ -24,7 +24,7 @@ function watch_ps() {
 
 function ps_ltegwd() {
     local count=$(ps -ef |grep ${exec_ltegwd}$|grep -v 'grep'|wc -l)
-    if [[ $count != 1 ]] && [[ -f $BASE_DIR/lo.bin ]] && [[ -f $BASE_DIR/ls.bin ]];then       
+    if [[ $count == 0 ]] && [[ -f $BASE_DIR/lo.bin ]] && [[ -f $BASE_DIR/ls.bin ]];then       
         $TOOLS_DIR/autoinfo &
         time_all=`date +%Y-%m-%d' '%H:%M:%S`
         time_Ymd=`date +%Y%m%d`
@@ -43,7 +43,7 @@ function ps_ltegwd() {
 
 function ps_gwrec() {
     local count=$(ps -ef |grep ${exec_gwrec}$|grep -v 'grep'|wc -l)
-    if [[ $count != 1 ]] && [[ -f $BASE_DIR/lo.bin ]] && [[ -f $BASE_DIR/ls.bin ]];then
+    if [[ $count == 0 ]] && [[ -f $BASE_DIR/lo.bin ]] && [[ -f $BASE_DIR/ls.bin ]];then
         $TOOLS_DIR/autoinfo &
         time_all=`date +%Y-%m-%d' '%H:%M:%S`
         time_Ymd=`date +%Y%m%d`
@@ -54,7 +54,7 @@ function ps_gwrec() {
 
 function ps_sctpd() {
     local count=$(ps -ef |grep ${exec_sctpd}$|grep -v 'grep'|wc -l)
-    if [[ $count != 1 ]] && [[ -f $BASE_DIR/lo.bin ]] && [[ -f $BASE_DIR/ls.bin ]];then
+    if [[ $count == 0 ]] && [[ -f $BASE_DIR/lo.bin ]] && [[ -f $BASE_DIR/ls.bin ]];then
         $TOOLS_DIR/autoinfo &
         time_all=`date +%Y-%m-%d' '%H:%M:%S`
         time_Ymd=`date +%Y%m%d`
@@ -70,7 +70,7 @@ function ps_sctpd() {
 
 function ps_egw_manage() {
     local count=$(ps -ef |grep ${exec_egw_manage}$|grep -v 'grep'|wc -l)
-    if [[ $count != 1 ]];then
+    if [[ $count == 0 ]];then
         $TOOLS_DIR/autoinfo &
         time_all=`date +%Y-%m-%d' '%H:%M:%S`
         time_Ymd=`date +%Y%m%d`
@@ -89,7 +89,7 @@ function ps_egw_manage() {
 
 function ps_egw_report() {
     local count=$(ps -ef |grep ${exec_egw_report}$|grep -v 'grep'|wc -l)
-    if [[ $count != 1 ]];then
+    if [[ $count == 0 ]];then
         $TOOLS_DIR/autoinfo &
         time_all=`date +%Y-%m-%d' '%H:%M:%S`
         time_Ymd=`date +%Y%m%d`
@@ -108,7 +108,7 @@ function ps_egw_report() {
 
 function ps_egw_monitor() {
     local count=$(ps -ef |grep ${exec_egw_monitor}$|grep -v 'grep'|wc -l)
-    if [[ $count != 1 ]];then
+    if [[ $count == 0 ]];then
         $TOOLS_DIR/autoinfo &
         time_all=`date +%Y-%m-%d' '%H:%M:%S`
         time_Ymd=`date +%Y%m%d`
@@ -127,7 +127,7 @@ function ps_egw_monitor() {
 
 function ps_egw_manage_logger() {
     local count=$(ps -ef |grep ${exec_egw_manage_logger}$|grep -v 'grep'|wc -l)
-    if [[ $count != 1 ]];then
+    if [[ $count == 0 ]];then
         $TOOLS_DIR/autoinfo &
         time_all=`date +%Y-%m-%d' '%H:%M:%S`
         time_Ymd=`date +%Y%m%d`
@@ -147,7 +147,7 @@ function ps_egw_manage_logger() {
 
 function ps_kpiMain() {
     local count=$(ps -ef |grep ${exec_kpiMain}$|grep -v 'grep'|wc -l)
-    if [[ $count != 1 ]];then
+    if [[ $count == 0 ]];then
         $TOOLS_DIR/autoinfo &
         time_all=`date +%Y-%m-%d' '%H:%M:%S`
         time_Ymd=`date +%Y%m%d`

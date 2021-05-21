@@ -7,11 +7,12 @@
 function egw_ps() {
     source $CUR_DIR/watchdog_ps.sh
     export -f ps_ltegwd
+    export -f ps_sctpd
+    export -f ps_gwrec
     export -f ps_egw_manage
     export -f ps_egw_report
     export -f ps_egw_monitor
     export -f ps_egw_manage_logger
-    export -f ipsec_test
     export -f ps_kpiMain
 
     local watch="$CUR_DIR/watchdog_ps.sh"

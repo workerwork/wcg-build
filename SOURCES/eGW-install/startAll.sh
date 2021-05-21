@@ -29,27 +29,12 @@ export VTYSH="$BASE_DIR/vtysh"
 
 #init the redis nginx ipsec
 source $CUR_DIR/init.sh && init
-#sleep 2
-
-#configure iptables
-#source $CUR_DIR/iptables.sh && config_iptables
-
-#start gwrec
-#source $CUR_DIR/watchdog.sh && watchdog_gwrec &
 
 #configure keepalived
 source $CUR_DIR/keepalived.sh && keepalived
 
 #start process
 source $CUR_DIR/process.sh && process
-export -f start_ltegwd
-export -f start_sctpd
-export -f start_gwrec
-export -f start_egw_manage
-export -f start_egw_manage_logger
-export -f start_egw_report
-export -f start_egw_monitor
-export -f start_KPIMain
 sleep 1
 
 #configure eGW
