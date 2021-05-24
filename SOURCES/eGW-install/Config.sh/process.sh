@@ -35,6 +35,8 @@ function start_gtp_ko() {
 }
 
 function start_ltegwd() {
+    redis-cli -h $redisHost -p $redisPort -a "redisPass" del eGWActiveEnb &>/dev/null
+    redis-cli -h $redisHost -p $redisPort -a "redisPass" del eGWConnectedUe &>/dev/null
     export exec_ltegwd="$BASE_DIR/ltegwd 4"
     $exec_ltegwd &
 }

@@ -51,8 +51,8 @@ function egw_log() {
 }
 
 function watchdog_all() {
-    local WATCHDOG_SWITCH_DEFAULT=$(redis-cli -h 127.0.0.1 -p 9736 -a "$redisPass" hget eGW-para-default watchdog_switch)
-    local WATCHDOG_SWITCH_SET=$(redis-cli -h 127.0.0.1 -p 9736 -a "$redisPass" hget eGW-para-set watchdog_switch)
+    local WATCHDOG_SWITCH_DEFAULT=$(redis-cli -h $redisHost -p $redisPort -a "$redisPass" hget eGW-para-default watchdog_switch)
+    local WATCHDOG_SWITCH_SET=$(redis-cli -h $redisHost -p $redisPort -a "$redisPass" hget eGW-para-set watchdog_switch)
     local watchdog_switch_default=${WATCHDOG_SWITCH_DEFAULT:-"enable"}
     local watchdog_switch_set=${WATCHDOG_SWITCH_SET}
     local watchdog_switch=${watchdog_switch_set:-$watchdog_switch_default}

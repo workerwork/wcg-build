@@ -16,11 +16,11 @@ function keepalived() {
         fi
         local ha_status=$(cat $HA_STATUS)
         if [[ $ha_status == "MASTER" ]];then
-            redis-cli -h 127.0.0.1 -p 9736 -a "$redisPass" slaveof no one
+            redis-cli -h $redisHost -p $redisPort -a "$redisPass" slaveof no one
             echo "local server is master,go on!"    
         elif [[ $ha_status == "BACKUP" ]];then
             local ha_slave=$(awk -F ' = ' '/^slaveip/{print $2}' $HA_CONF)
-            redis-cli -h 127.0.0.1 -p 9736 -a "$redisPass" slaveof $ha_slave 9736
+            redis-cli -h $redisHost -p $redisPort -a "$redisPass" slaveof $ha_slave $redisPort
             [[ $(ipsec status) ]] && ipsec stop
             echo "local server is backup,exit!"
             exit 0
