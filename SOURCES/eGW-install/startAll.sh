@@ -16,6 +16,7 @@ export REDIS_CONF="$REDIS_DIR/redis_wcg.conf"
 export redisHost="127.0.0.1"
 export redisPort="9736"
 export redisPass=$(cat $REDIS_CONF|awk '/^requirepass/{print $2}')
+export redisShort="redis-cli -h $redisHost -p $redisPort -a ${redisPass:-\"\"}"
 export NGINX_DIR="$BASE_DIR/nginx"
 export OMC_DIR="$BASE_DIR/OMC"
 export TOOLS_DIR="$BASE_DIR/Tools"

@@ -16,11 +16,11 @@ function keepalived() {
         fi
         local ha_status=$(cat $HA_STATUS)
         if [[ $ha_status == "MASTER" ]];then
-            redis-cli -h $redisHost -p $redisPort -a "$redisPass" slaveof no one
+            $redisShort slaveof no one
             echo "local server is master,go on!"    
         elif [[ $ha_status == "BACKUP" ]];then
             local ha_slave=$(awk -F ' = ' '/^slaveip/{print $2}' $HA_CONF)
-            redis-cli -h $redisHost -p $redisPort -a "$redisPass" slaveof $ha_slave $redisPort
+            $redisShort slaveof $ha_slave $redisPort
             [[ $(ipsec status) ]] && ipsec stop
             echo "local server is backup,exit!"
             exit 0
@@ -34,36 +34,34 @@ function keepalived() {
     fi
 }
 
+function keepalived_log() {
+    time_all=$(date +%Y-%m-%d' '%H:%M:%S)
+    time_Ymd=$(date +%Y%m%d)
+    echo $time_all " keepalived: local server change to $1, $2 monitor" >> $LOG_PATH/keepalived_${time_Ymd}.log
+}
+
 function to_master() {
     echo "MASTER" > $HA_STATUS
     systemctl restart monitor
-    time_all=`date +%Y-%m-%d' '%H:%M:%S`
-    time_Ymd=`date +%Y%m%d`
-    echo $time_all " keepalived: local server change to master,start monitor" >> $LOG_PATH/keepalived_${time_Ymd}.log
+    keepalived_log "master" "start"
 }
 
 function to_backup() {
     echo "BACKUP" > $HA_STATUS
     systemctl restart monitor
-    time_all=`date +%Y-%m-%d' '%H:%M:%S`
-    time_Ymd=`date +%Y%m%d`
-    echo $time_all " keepalived: local server change to backup,stop monitor" >> $LOG_PATH/keepalived_${time_Ymd}.log
+    keepalived_log "backup" "stop"
 }
 
 function to_fault() {
     echo "FAULT" > $HA_STATUS
     systemctl restart monitor
-    time_all=`date +%Y-%m-%d' '%H:%M:%S`
-    time_Ymd=`date +%Y%m%d`
-    echo $time_all " keepalived: local server change to fault,stop monitor" >> $LOG_PATH/keepalived_${time_Ymd}.log
+    keepalived_log "fault" "stop"
 }
 
 function to_stop() {
     echo "STOP" > $HA_STATUS
     systemctl restart monitor
-    time_all=`date +%Y-%m-%d' '%H:%M:%S`
-    time_Ymd=`date +%Y%m%d`
-    echo $time_all " keepalived: local server change to stop,stop monitor" >> $LOG_PATH/keepalived_${time_Ymd}.log
+    keepalived_log "stop" "stop"
 }
 
 function notify() {

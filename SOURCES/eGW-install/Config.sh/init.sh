@@ -46,12 +46,12 @@ function init_redis() {
     [[ $redis_wcg_pid ]] || systemctl restart redis_wcg
     while :
     do
-        local redis_wcg_status=$(redis-cli -h $redisHost -p $redisPort -a "$redisPass" ping)
+        local redis_wcg_status=$($redisShort ping)
         if [[ $redis_wcg_status == "PONG" ]];then
             break
         fi
     done
-    redis-cli -h $redisHost -p $redisPort -a "$redisPass" bgrewriteaof	
+    $redisShort bgrewriteaof
 }
 
 function init_nginx() {
@@ -64,24 +64,24 @@ function init_nginx() {
 
 function init_para() {
     if [[ -f $PARA_CONF ]];then
-        redis-cli -h $redisHost -p $redisPort -a "$redisPass" del eGW-para-default
+        $redisShort del eGW-para-default
         while read line
         do
             if [[ "${line:0:1}" != "#" ]]; then
                 [[ -z "$line" ]] && continue
                 key=$(echo $line | awk '{print $1}')
                 value=$(echo $line | awk '{print $3}')
-                redis-cli -h $redisHost -p $redisPort -a "$redisPass" hset eGW-para-default $key $value
+                $redisShort hset eGW-para-default $key $value
             fi	
         done < $PARA_CONF
     fi
 }
 
 function read_para() {
-    IPSEC_UPLINK_DEFAULT=$(redis-cli -h $redisHost -p $redisPort -a "$redisPass" hget eGW-para-default config_ipsec_uplink_switch)
-    IPSEC_UPLINK_SET=$(redis-cli -h $redisHost -p $redisPort -a "$redisPass" hget eGW-para-set config_ipsec_uplink_switch)
-    IPSEC_DOWNLINK_DEFAULT=$(redis-cli -h $redisHost -p $redisPort -a "$redisPass" hget eGW-para-default config_ipsec_downlink_switch)
-    IPSEC_DOWNLINK_SET=$(redis-cli -h $redisHost -p $redisPort -a "$redisPass" hget eGW-para-set config_ipsec_downlink_switch)
+    IPSEC_UPLINK_DEFAULT=$($redisShort hget eGW-para-default config_ipsec_uplink_switch)
+    IPSEC_UPLINK_SET=$($redisShort hget eGW-para-set config_ipsec_uplink_switch)
+    IPSEC_DOWNLINK_DEFAULT=$($redisShort hget eGW-para-default config_ipsec_downlink_switch)
+    IPSEC_DOWNLINK_SET=$($redisShort hget eGW-para-set config_ipsec_downlink_switch)
 }
 
 function start_ipsec() {

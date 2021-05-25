@@ -35,8 +35,8 @@ function start_gtp_ko() {
 }
 
 function start_ltegwd() {
-    redis-cli -h $redisHost -p $redisPort -a "redisPass" del eGWActiveEnb &>/dev/null
-    redis-cli -h $redisHost -p $redisPort -a "redisPass" del eGWConnectedUe &>/dev/null
+    $redisShort del eGWActiveEnb &>/dev/null
+    $redisShort del eGWConnectedUe &>/dev/null
     export exec_ltegwd="$BASE_DIR/ltegwd 4"
     $exec_ltegwd &
 }
@@ -56,13 +56,17 @@ function start_autoinfo() {
 }
 
 function process() {
-    start_egw_manage && export -f start_egw_manage
-    start_egw_manage_logger && export -f start_egw_manage_logger
-    start_egw_report && export -f start_egw_report
-    start_egw_monitor && export -f start_egw_monitor
-    start_gtp_ko && export -f start_gtp_ko
-    start_ltegwd && export -f start_ltegwd
-    start_sctpd && export -f start_sctpd
-    start_KPIMain && export -f start_KPIMain
     export -f start_autoinfo
+    start_bins="start_egw_manage 
+                start_egw_manage_logger 
+                start_egw_report
+                start_egw_monitor 
+                start_gtp_ko 
+                start_ltegwd 
+                start_sctpd 
+                start_KPIMain"
+    for start_bin in $start_bins
+    do
+        $start_bin && export -f $start_bin
+    done
 }
