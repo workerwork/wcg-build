@@ -36,6 +36,7 @@ function egw_ps() {
 
 function egw_log() {
     source $CUR_DIR/watchdog_log.sh
+    export -f del_log
     export -f ps_log
     export -f history_log
     export -f keepalived_log
