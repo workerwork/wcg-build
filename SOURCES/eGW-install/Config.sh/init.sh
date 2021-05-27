@@ -32,18 +32,19 @@ function init_redis() {
             grep "^bind $redisHost $ha_local" $REDIS_CONF
             if [[ $? == 1 ]];then
                 sed -i "s@^bind .*@bind $redisHost $ha_local@g" $REDIS_CONF
-                systemctl restart redis_wcg
+                #systemctl restart redis_wcg
             fi
         fi
     else
         grep "^bind $redisHost" $REDIS_CONF
         if [[ $? == 1 ]];then
             sed -i "s@^bind .*@bind ${redisHost}@g" $REDIS_CONF
-            systemctl restart redis_wcg
+            #systemctl restart redis_wcg
         fi
     fi
-    local redis_wcg_pid=$(ps -ef | grep redis-server | grep $redisPort | awk '{print $2}')
-    [[ $redis_wcg_pid ]] || systemctl restart redis_wcg
+    #local redis_wcg_pid=$(ps -ef | grep redis-server | grep $redisPort | awk '{print $2}')
+    #[[ $redis_wcg_pid ]] || systemctl restart redis_wcg
+    systemctl restart redis_wcg
     while :
     do
         local redis_wcg_status=$($redisShort ping)
