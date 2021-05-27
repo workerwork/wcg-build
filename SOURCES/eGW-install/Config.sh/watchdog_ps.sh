@@ -60,6 +60,8 @@ function ps_sctpd() {
         start_autoinfo
 	watchdog_log sctpd
         pkill ltegwd
+        $redisShort del eGWActiveEnb &>/dev/null
+        $redisShort del eGWConnectedUe &>/dev/null
         start_gtp_ko
         start_ltegwd	
         start_sctpd

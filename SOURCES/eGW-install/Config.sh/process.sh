@@ -35,8 +35,6 @@ function start_gtp_ko() {
 }
 
 function start_ltegwd() {
-    $redisShort del eGWActiveEnb &>/dev/null
-    $redisShort del eGWConnectedUe &>/dev/null
     export exec_ltegwd="$BASE_DIR/ltegwd 4"
     $exec_ltegwd &
 }

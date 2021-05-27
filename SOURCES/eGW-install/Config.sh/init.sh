@@ -52,6 +52,8 @@ function init_redis() {
             break
         fi
     done
+    $redisShort del eGWActiveEnb &>/dev/null
+    $redisShort del eGWConnectedUe &>/dev/null
     $redisShort bgrewriteaof
 }
 
