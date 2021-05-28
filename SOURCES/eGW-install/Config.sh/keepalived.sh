@@ -5,6 +5,8 @@
 # update:20210520
 ##########################################################################################
 LOG_PATH="$LOG_DIR/keepalived"
+HA_STATUS="/root/eGW/.ha.status"
+NOTIFY=$1
 
 function keepalived() {
     local ha_switch=$(awk -F ' = ' '/^ha_switch/{print $2}' $HA_CONF)
@@ -65,7 +67,7 @@ function to_stop() {
 }
 
 function notify() {
-    case $1 in
+    case $NOTIFY in
         "master")
         to_master
         ;;
