@@ -47,6 +47,8 @@ function egw_log() {
     export -f report_log
     export -f monitor_log
     export -f vtysh_log
+    export -f core_log
+    export -f crash_log
     
     local watch="$CUR_DIR/watchdog_log.sh"
     ps_ef ps_log watchdog_ps_log_timer watchdog_ps_log_number
