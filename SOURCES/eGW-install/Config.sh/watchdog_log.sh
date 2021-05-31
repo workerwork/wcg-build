@@ -79,3 +79,10 @@ function vtysh_log() {
     del_log "$LOG_DIR/vtysh/vtysh.log_*" $1
 }
 
+function core_log() {
+    del_log "/root/coredump/core-ltegwd-*" $1
+}
+
+function crash_log() {
+    del_log "/var/crash/*" $1
+}
