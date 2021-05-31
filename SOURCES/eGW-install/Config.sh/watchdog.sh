@@ -22,6 +22,7 @@ function egw_ps() {
     export -f ps_egw_monitor
     export -f ps_egw_manage_logger
     export -f ps_kpiMain
+    export -f watchdog_log
 
     local watch="$CUR_DIR/watchdog_ps.sh"
     ps_ef ps_gwrec watchdog_gwrec_timer
