@@ -25,14 +25,14 @@ function watch_ps() {
 function watchdog_log() {
     time_all=$(date +%Y-%m-%d' '%H:%M:%S)
     time_Ymd=$(date +%Y%m%d)
-    echo $time_all " watchdog: $1 restart" >> $WATCHDOG_LOG_PATH/ps_${time_Ymd}.log
+    echo $time_all " watchdog: $1 " >> $WATCHDOG_LOG_PATH/ps_${time_Ymd}.log
 }
 
 function ps_ltegwd() {
     local count=$(ps -ef |grep ${exec_ltegwd}$|grep -v 'grep'|wc -l)
     if [[ $count == 0 ]] && [[ -f $BASE_DIR/lo.bin ]] && [[ -f $BASE_DIR/ls.bin ]];then       
         start_autoinfo
-        watchdog_log ltegwd
+        watchdog_log "ltegwd restart"
         $redisShort hset eGW-status eGW-ps-state-ltegwd 1
         $redisShort lpush eGW-alarm-ps ltegwd:1
 	start_ltegwd 
@@ -49,7 +49,7 @@ function ps_gwrec() {
     local count=$(ps -ef |grep ${exec_gwrec}$|grep -v 'grep'|wc -l)
     if [[ $count == 0 ]] && [[ -f $BASE_DIR/lo.bin ]] && [[ -f $BASE_DIR/ls.bin ]];then
         start_autoinfo
-        watchdog_log gwrec
+        watchdog_log "gwrec restart"
         start_gwrec
     fi
 }
@@ -58,7 +58,7 @@ function ps_sctpd() {
     local count=$(ps -ef |grep ${exec_sctpd}$|grep -v 'grep'|wc -l)
     if [[ $count == 0 ]] && [[ -f $BASE_DIR/lo.bin ]] && [[ -f $BASE_DIR/ls.bin ]];then
         start_autoinfo
-	watchdog_log sctpd
+        watchdog_log "sctpd restart"
         pkill ltegwd
         $redisShort del eGWActiveEnb &>/dev/null
         $redisShort del eGWConnectedUe &>/dev/null
@@ -72,8 +72,8 @@ function ps_egw_manage() {
     local count=$(ps -ef |grep ${exec_egw_manage}$|grep -v 'grep'|wc -l)
     if [[ $count == 0 ]];then
         start_autoinfo
-        watchdog_log egw_manage
-   	$redisShort hset eGW-status eGW-ps-state-egw_manage 1
+        watchdog_log "egw_manage restart"
+        $redisShort hset eGW-status eGW-ps-state-egw_manage 1
         $redisShort lpush eGW-alarm-ps egw_manage:1
         start_egw_manage
     else
@@ -89,7 +89,7 @@ function ps_egw_report() {
     local count=$(ps -ef |grep ${exec_egw_report}$|grep -v 'grep'|wc -l)
     if [[ $count == 0 ]];then
         start_autoinfo
-        watchdog_log egw_report
+        watchdog_log "egw_report restart"
         $redisShort hset eGW-status eGW-ps-state-egw_report 1
         $redisShort lpush eGW-alarm-ps egw_report:1
         start_egw_report
@@ -106,7 +106,7 @@ function ps_egw_monitor() {
     local count=$(ps -ef |grep ${exec_egw_monitor}$|grep -v 'grep'|wc -l)
     if [[ $count == 0 ]];then
         start_autoinfo
-        watchdog_log egw_monitor
+        watchdog_log "egw_monitor restart"
         $redisShort hset eGW-status eGW-ps-state-egw_monitor 1
         $redisShort lpush eGW-alarm-ps egw_monitor:1
         start_egw_monitor
@@ -123,7 +123,7 @@ function ps_egw_manage_logger() {
     local count=$(ps -ef |grep ${exec_egw_manage_logger}$|grep -v 'grep'|wc -l)
     if [[ $count == 0 ]];then
         start_autoinfo
-        watchdog_log egw_manage_logger
+        watchdog_log "egw_manage_logger restart"
         $redisShort hset eGW-status eGW-ps-state-egw_manage_logger 1
         $redisShort lpush eGW-alarm-ps egw_manage_logger:1
         start_egw_manage_logger
@@ -141,7 +141,7 @@ function ps_kpiMain() {
     local count=$(ps -ef |grep ${exec_kpiMain}$|grep -v 'grep'|wc -l)
     if [[ $count == 0 ]];then
         start_autoinfo
-        watchdog_log kpiMain
+        watchdog_log "kpiMain restart"
         $redisShort hset eGW-status eGW-ps-state-kpiMain 1
         $redisShort lpush eGW-alarm-ps kpiMain:1
         start_KPIMain
