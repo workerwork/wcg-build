@@ -61,6 +61,9 @@ function egw_log() {
     ps_ef report_log watchdog_report_log_timer watchdog_report_log_number
     ps_ef monitor_log watchdog_monitor_log_timer watchdog_monitor_log_number
     ps_ef vtysh_log watchdog_vtysh_log_timer watchdog_vtysh_log_number
+    ps_ef history_log watchdog_history_log_timer watchdog_history_log_number
+    ps_ef core_log watchdog_core_log_timer watchdog_core_log_number
+    ps_ef crash_log watchdog_crash_log_timer watchdog_crash_log_number
 }
 
 function watchdog_all() {
