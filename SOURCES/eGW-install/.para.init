@@ -45,6 +45,10 @@ watchdog_monitor_log_timer = 3600
 watchdog_monitor_log_number = 15
 watchdog_vtysh_log_timer = 3600
 watchdog_vtysh_log_number = 15
+watchdog_core_log_timer = 3600
+watchdog_core_log_number = 5
+watchdog_crash_log_timer = 3600
+watchdog_crash_log_number = 5
 
 #ltegwd.xml:cfgInfo
 #ltegwd_redisServIp = 127.0.0.1
