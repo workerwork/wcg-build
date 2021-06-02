@@ -23,6 +23,7 @@ function egw_ps() {
     export -f ps_egw_manage_logger
     export -f ps_kpiMain
     export -f watchdog_log
+    export -f ipsec_test
 
     local watch="$CUR_DIR/watchdog_ps.sh"
     ps_ef ps_gwrec watchdog_gwrec_timer
@@ -33,6 +34,7 @@ function egw_ps() {
     ps_ef ps_egw_monitor watchdog_monitor_timer
     ps_ef ps_egw_manage_logger watchdog_manage_logger_timer
     ps_ef ps_kpiMain watchdog_kpimain_timer
+    ps_ef ipsec_test watchdog_ipsec_test_timer
 }
 
 function egw_log() {

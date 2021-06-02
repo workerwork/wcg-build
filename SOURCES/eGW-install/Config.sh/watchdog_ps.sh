@@ -154,3 +154,20 @@ function ps_kpiMain() {
     fi
 }
 
+#ipsec up自动替换，ipsec down 提示手工替换，egwTool自身实现限制
+function ipsec_test() {
+    local ipsec_uplink_default=$($redisShort hget eGW-para-default config_ipsec_uplink_switch)
+    local ipsec_uplink_set=$($redisShort hget eGW-para-set config_ipsec_uplink_switch)
+    local ipsec_uplink=${ipsec_uplink_set:-$ipsec_uplink_default}
+    if [[ $ipsec_uplink ==  "enable" ]];then
+        local uplink_addr=$($TOOLS_DIR/egwTool -P | awk '/gtpu-uplink/{print $3;exit}')
+        local ip_ipsec=$(ipsec status | grep client | grep === | awk '{print $2}' | awk 'BEGIN {FS = "/"} {print $1}')
+        if [[ $ip_ipsec != $uplink_addr ]] && [[ $ip_ipsec ]];then
+            $TOOLS_DIR/egwTool -P |awk -v ip=$uplink_addr -v ip_conf=$ip_ipsec '{if($1~/macro-enblink/ && $5==ip && $3!="ipv6"){system("/root/eGW/Tools/egwTool -f "$5":"ip_conf );exit}}'
+            pkill ltegwd
+            start_ltegwd
+            watchdog_log "ipsec_add changed"
+        fi
+    fi
+}
+
