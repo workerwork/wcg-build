@@ -346,7 +346,7 @@ function coredump_set() {
 #set history
 function history_set() {
     file_cfg='/etc/bashrc'
-    prompt_command_format='if [[ $(whoami) == "root" ]];then { date "+%Y-%m-%d %T ##### $(who am i |awk "{print \$1\" \"\$2\" \"\$5}") #### $(pwd) #### $(history 1 | { read x cmd; echo "$cmd"; })"; } >> /root/eGW/Logs/history/$(date +"%Y%m%d").log &> /dev/null;fi'
+    prompt_command_format='if [[ $(whoami) == "root" ]];then { date "+%Y-%m-%d %T ##### $(who am i |awk "{print \$1\" \"\$2\" \"\$5}") #### $(pwd) #### $(history 1 | { read x cmd; echo "$cmd"; })"; } >> /root/eGW/Logs/history/$(date +"%Y%m%d").log 2>/dev/null;fi'
     sed -i "/.*\(export PROMPT_COMMAND=\).*/d" $file_cfg
     echo "export PROMPT_COMMAND='$prompt_command_format'" >> $file_cfg
 
