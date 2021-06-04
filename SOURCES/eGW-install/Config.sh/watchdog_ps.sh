@@ -25,7 +25,7 @@ function watch_ps() {
 function watchdog_log() {
     time_all=$(date +%Y-%m-%d' '%H:%M:%S)
     time_Ymd=$(date +%Y%m%d)
-    echo $time_all " watchdog: $1 " >> $WATCHDOG_LOG_PATH/ps_${time_Ymd}.log
+    echo $time_all " watchdog: $1 " >> $WATCHDOG_LOG_DIR/ps_${time_Ymd}.log
 }
 
 function ps_ltegwd() {

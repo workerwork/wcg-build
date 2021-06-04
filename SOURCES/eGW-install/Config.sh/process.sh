@@ -66,7 +66,7 @@ function process() {
                 start_egw_monitor 
                 start_gtp_ko 
                 start_gwrec
-		start_ltegwd 
+                start_ltegwd 
                 start_sctpd 
                 start_kpiMain"
     for start_bin in $start_bins
