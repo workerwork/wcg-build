@@ -35,7 +35,7 @@ function ps_ltegwd() {
         watchdog_log "ltegwd restart"
         $redisShort hset eGW-status eGW-ps-state-ltegwd 1
         $redisShort lpush eGW-alarm-ps ltegwd:1
-	start_ltegwd 
+	    start_ltegwd 
     else		
         ltegwd_state=$($redisShort hget eGW-status eGW-ps-state-ltegwd)
         if [[ $ltegwd_state == 1 ]];then
@@ -50,7 +50,15 @@ function ps_gwrec() {
     if [[ $count == 0 ]] && [[ -f $BASE_DIR/lo.bin ]] && [[ -f $BASE_DIR/ls.bin ]];then
         start_autoinfo
         watchdog_log "gwrec restart"
+        $redisShort hset eGW-status eGW-ps-state-gwrec 1
+        $redisShort lpush eGW-alarm-ps gwrec:1
         start_gwrec
+    else
+        gwrec_state=$($redisShort hget eGW-status eGW-ps-state-gwrec)
+        if [[ $gwrec_state == 1 ]];then
+            $redisShort lpush eGW-alarm-ps gwrec:0
+            $redisShort hset eGW-status eGW-ps-state-gwrec 0
+        fi
     fi
 }
 
@@ -59,12 +67,20 @@ function ps_sctpd() {
     if [[ $count == 0 ]] && [[ -f $BASE_DIR/lo.bin ]] && [[ -f $BASE_DIR/ls.bin ]];then
         start_autoinfo
         watchdog_log "sctpd restart"
+        $redisShort hset eGW-status eGW-ps-state-sctpd 1
+        $redisShort lpush eGW-alarm-ps sctpd:1
         pkill ltegwd
         $redisShort del eGWActiveEnb &>/dev/null
         $redisShort del eGWConnectedUe &>/dev/null
         start_gtp_ko
         start_ltegwd	
         start_sctpd
+    else
+        sctpd_state=$($redisShort hget eGW-status eGW-ps-state-sctpd)
+        if [[ $sctpd_state == 1 ]];then
+            $redisShort lpush eGW-alarm-ps sctpd:0
+            $redisShort hset eGW-status eGW-ps-state-sctpd 0
+        fi
     fi
 }
 
