@@ -34,6 +34,11 @@ function start_gtp_ko() {
     fi
 }
 
+function start_gwrec() {
+    export exec_gwrec="$BASE_DIR/gwrec"
+    [[ $1 ]] && $exec_gwrec &  
+}
+
 function start_ltegwd() {
     export exec_ltegwd="$BASE_DIR/ltegwd 4"
     $exec_ltegwd &
@@ -60,7 +65,8 @@ function process() {
                 start_egw_report
                 start_egw_monitor 
                 start_gtp_ko 
-                start_ltegwd 
+                start_gwrec
+		start_ltegwd 
                 start_sctpd 
                 start_kpiMain"
     for start_bin in $start_bins
