@@ -35,7 +35,7 @@ function ps_ltegwd() {
         watchdog_log "ltegwd restart"
         $redisShort hset eGW-status eGW-ps-state-ltegwd 1
         $redisShort lpush eGW-alarm-ps ltegwd:1
-	    start_ltegwd 
+        start_ltegwd 
     else		
         ltegwd_state=$($redisShort hget eGW-status eGW-ps-state-ltegwd)
         if [[ $ltegwd_state == 1 ]];then
