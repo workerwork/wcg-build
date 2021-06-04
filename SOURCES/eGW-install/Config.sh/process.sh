@@ -44,9 +44,9 @@ function start_sctpd() {
     $exec_sctpd &
 }
 
-function start_KPIMain() {
-    export exec_KPIMain="$OMC_DIR/kpiMain"
-    $exec_KPIMain &
+function start_kpiMain() {
+    export exec_kpiMain="$OMC_DIR/kpiMain"
+    $exec_kpiMain &
 }
 
 function start_autoinfo() {
@@ -62,7 +62,7 @@ function process() {
                 start_gtp_ko 
                 start_ltegwd 
                 start_sctpd 
-                start_KPIMain"
+                start_kpiMain"
     for start_bin in $start_bins
     do
         $start_bin && export -f $start_bin

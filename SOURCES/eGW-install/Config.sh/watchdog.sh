@@ -33,7 +33,7 @@ function egw_ps() {
     ps_ef ps_egw_report watchdog_report_timer
     ps_ef ps_egw_monitor watchdog_monitor_timer
     ps_ef ps_egw_manage_logger watchdog_manage_logger_timer
-    ps_ef ps_kpiMain watchdog_kpimain_timer
+    ps_ef ps_kpiMain watchdog_kpiMain_timer
     ps_ef ipsec_test watchdog_ipsec_test_timer
 }
 

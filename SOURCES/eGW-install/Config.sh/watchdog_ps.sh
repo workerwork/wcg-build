@@ -160,7 +160,7 @@ function ps_kpiMain() {
         watchdog_log "kpiMain restart"
         $redisShort hset eGW-status eGW-ps-state-kpiMain 1
         $redisShort lpush eGW-alarm-ps kpiMain:1
-        start_KPIMain
+        start_kpiMain
     else
         kpiMain_state=$($redisShort hget eGW-status eGW-ps-state-kpiMain)
         if [[ $kpiMain_state == 1 ]];then

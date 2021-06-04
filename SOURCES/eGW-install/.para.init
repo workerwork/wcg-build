@@ -22,6 +22,7 @@ watchdog_manage_timer = 5
 watchdog_manage_logger_timer = 5
 watchdog_report_timer = 5
 watchdog_monitor_timer = 5
+watchdog_kpiMain_timer = 5
 watchdog_ipsec_test_timer = 5
 #watchdog_cdr_timer = 5
 #watchdog_cdr_number = 15
