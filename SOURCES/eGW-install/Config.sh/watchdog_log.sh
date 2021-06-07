@@ -84,5 +84,5 @@ function core_log() {
 }
 
 function crash_log() {
-    del_log "/var/crash/*" $1
+    del_log "/var/crash" $1
 }
