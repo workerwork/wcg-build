@@ -40,7 +40,8 @@ function watch_log() {
 function del_log() {
     log_path=$1
     log_num=$2
-    ls -lt $log_path 2>/dev/null | awk -v log_num=$log_num '{if(NR>log_num){print $9}}' | xargs rm -rf
+    options=$3
+    ls "-lt"$options $log_path 2>/dev/null | awk -v log_num=$log_num '{if(NR>log_num){print $9}}' | xargs rm -rf
 }
 
 function ps_log() {
@@ -84,5 +85,5 @@ function core_log() {
 }
 
 function crash_log() {
-    del_log "/var/crash" $1
+    del_log "/var/crash/*" $1 "d"
 }
