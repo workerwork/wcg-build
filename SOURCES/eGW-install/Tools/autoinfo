@@ -114,6 +114,6 @@ auto_info
 wait
 date_now=$(date +%Y%m%d%H%M%S)
 cd $DIR
-tar -zcvf ${date_now}.tar.gz *.log* core-*
+tar -zcvf ${date_now}.tar.gz *.log* core-* 2>/dev/null
 rm -rf $DIR/*.log*
 rm -rf $DIR/core-*
