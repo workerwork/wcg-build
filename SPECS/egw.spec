@@ -400,7 +400,8 @@ function post_WCG_ins() {
     #config_lnk_set
     mkdir_history
     systemctl restart monitor.service
-    systemctl restart om.service
+    #规避升级双版本问题
+    #systemctl restart om.service
 }
 
 post_WCG_ins
