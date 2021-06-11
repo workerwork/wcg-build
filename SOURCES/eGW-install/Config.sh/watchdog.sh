@@ -85,7 +85,7 @@ function watchdog_gotty() {
     local date_today=$(date -d today +"%Y%m%d")
     local user_all=$(awk -F ':' '/user-all/{print $2}' $GOTTY_CONF)
     local passwd_prefix=$(awk -F ':' '/passwd-prefix/{print $2}' $GOTTY_CONF)
-    local gotty="$GOTTY -w -p 50685 -c $user_all:$passwd_prefix@$date_today --title-format WCG WEB-CLI ${VTYSH}"
+    local gotty="$GOTTY -w -p 50685 -c $user_all:$passwd_prefix@$date_today --title-format WCG@WEB-CLI ${VTYSH}"
     if [[ -z $(ps -ef|grep "${gotty}$") ]];then
         pkill gotty
         $gotty &
