@@ -25,6 +25,10 @@ function init_net() {
 }
 
 function init_redis() {
+    local default_password="WCG@baicells.com"
+    sed -i "s/^appendonly yes/appendonly no/" $REDIS_CONF
+    grep -q "^requirepass" $REDIS_CONF || sed -i "/# Command renaming./i requirepass $default_password" $REDIS_CONF
+    grep -q "^masterauth" $REDIS_CONF || sed -i "/# When a slave loses/i masterauth $default_password" $REDIS_CONF
     local ha_switch=$(awk -F ' = ' '/^ha_switch/{print $2}' $HA_CONF)
     local ha_local=$(awk -F ' = ' '/^localip/{print $2}' $HA_CONF)
     if [[ $ha_switch == "enable" ]];then
