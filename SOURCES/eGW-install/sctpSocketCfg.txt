@@ -1,8 +1,0 @@
-
-
-######  NOTE: Please Do NOT change the order of the parameters ######
-
-sctpdIP = "127.0.0.1"
-sctpdPort = 10000
-ltegwdIP = "127.0.0.1"
-ltegwdPort = 20000
