@@ -1,9 +1,9 @@
-#制作WCG版本的spec文件
+#制作WCG_V版本的spec文件
 
-Name:       WCG
+Name:       WCG_V
 Version:    1.0.0
 Release:    1%{?dist}
-Summary:    WCG rpm package
+Summary:    WCG_V rpm package
 
 License:    GPL
 Packager:   dongfeng
@@ -14,7 +14,7 @@ Source0:    %{name}-%{version}.tar.gz
 Requires:   nginx,redis,hiredis,fcgi,spawn-fcgi,gsoap,curl,lksctp-tools,vconfig,xinetd,tftp,tftp-server,keepalived,net-tools,ethtool     
 
 %description
-The rpm package for WCG install!
+The rpm package for WCG_V install!
 
 
 %prep
@@ -28,8 +28,48 @@ The rpm package for WCG install!
 rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT/home/wcg/eGW
 cp -arf . $RPM_BUILD_ROOT/home/wcg/eGW
-#rm -rf $RPM_BUILD_ROOT/home/wcg/eGW/Config.sh/crypt.sh
-#rm -rf $RPM_BUILD_ROOT/home/wcg/eGW/Config.sh/watchdog_crypt.sh
+pushd $RPM_BUILD_ROOT/home/wcg/eGW
+sed -i 's/\(egw.log\)/.\1/' eGWLogCfg.txt
+sed -i 's/\(Config.sh\)/.\1/' startAll.sh
+sed -i 's/\(redis_wcg.conf\)/.\1/' startAll.sh
+sed -i 's/\(networkcfg.conf\)/.\1/' startAll.sh
+sed -i 's/\(ha.conf\)/.\1/' startAll.sh
+sed -i 's/\(gotty.conf\)/.\1/' startAll.sh
+sed -i '/#start watchdog/i #start crypt log \n$CUR_DIR/watchdog_crypt.sh &\n' startAll.sh
+sed -i 's/\(vtysh.log\)/.\1/' vtyshLogCfg.txt
+sed -i 's/\(startAll.sh\)/.\1/' monitor.service
+sed -i 's/\(stopAll.sh\)/.\1/' monitor.service
+
+sed -i 's/\(egw_report.log\)/.\1/' OMC/eGW_Cfg_Info.xml
+sed -i 's/\(egw_manage.log\)/.\1/' OMC/eGW_Cfg_Info.xml
+sed -i 's/\(egw_monitor.log\)/.\1/' OMC/eGW_Monitor_Cfg_Info.xml
+sed -i 's/\(startOm.sh\)/.\1/' OMC/om.service
+sed -i 's/\(stopOm.sh\)/.\1/' OMC/om.service
+sed -i 's/\(redis_wcg.conf\)/.\1/' redis/redis_wcg.service
+sed -i 's/\(redis_wcg-shutdown\)/.\1/' redis/redis_wcg.service
+sed -i 's/\(nginx_wcg.conf\)/.\1/' redis/nginx_wcg.service
+sed -i 's/\(Config.sh\)/.\1/' keepalived/keepalived_wcg.conf
+sed -i 's/\(keepalived_wcg.conf\)/.\1/' keepalived/keepalived_wcg.service
+
+for file in networkcfg.conf ha.conf eGWLogCfg.txt gotty.conf ltegwd.xml startAll.sh stopAll.sh vtyshLogCfg.txt \
+	    OMC/eGW_Cfg_Info.xml OMC/eGW_Monitor_Cfg_Info.xml OMC/startOm.sh OMC/stopOm.sh \
+            redis/redis_wcg.conf redis/redis_wcg-shutdown \
+            nginx/nginx_wcg.conf \
+	    keepalived/keepalived_wcg.conf
+do
+  if [[ ${file:0:4} == "OMC/" ]];then
+    mv $file OMC/.${file:4}
+  elif [[ ${file:0:6} == "redis/" ]];then
+    mv $file redis/.${file:6}
+  elif [[  ${file:0:6} == "nginx/" ]];then
+    mv $file nginx/.${file:6}
+  elif [[  ${file:0:11} == "keepalived/" ]];then
+    mv $file keepalived/.${file:11}
+  else
+    mv $file .${file}
+  fi
+done
+popd
 #rm -rf $RPM_BUILD_ROOT/root/eGW/monitor.service
 #rm -rf $RPM_BUILD_ROOT/root/eGW/om.service
 #rm -rf $RPM_BUILD_ROOT/root/eGW/keepalived.conf
@@ -57,20 +97,20 @@ ls | grep -v git.init | xargs rm -rf
 #%config(noreplace) /root/eGW/config.conf
 %config(noreplace) /home/wcg/eGW/lo.bin
 %config(noreplace) /home/wcg/eGW/ls.bin
-%config(noreplace) /home/wcg/eGW/networkcfg.conf
-%config(noreplace) /home/wcg/eGW/ha.conf
-%config(noreplace) /home/wcg/eGW/eGWLogCfg.txt
-%config(noreplace) /home/wcg/eGW/OMC/eGW_Cfg_Info.xml
+%config(noreplace) /home/wcg/eGW/.networkcfg.conf
+%config(noreplace) /home/wcg/eGW/.ha.conf
+%config(noreplace) /home/wcg/eGW/.eGWLogCfg.txt
+%config(noreplace) /home/wcg/eGW/OMC/.eGW_Cfg_Info.xml
 %config(noreplace) /home/wcg/eGW/OMC/config/app.conf
-%config(noreplace) /home/wcg/eGW/vtyshLogCfg.txt
-%config(noreplace) /home/wcg/eGW/OMC/eGW_Monitor_Cfg_Info.xml
-%config(noreplace) /home/wcg/eGW/ltegwd.xml
-%config(noreplace) /home/wcg/eGW/gotty.conf
+%config(noreplace) /home/wcg/eGW/.vtyshLogCfg.txt
+%config(noreplace) /home/wcg/eGW/OMC/.eGW_Monitor_Cfg_Info.xml
+%config(noreplace) /home/wcg/eGW/.ltegwd.xml
+%config(noreplace) /home/wcg/eGW/.gotty.conf
 #%config(noreplace) /root/eGW/keepalived.conf.wcg
 #%config(noreplace) /root/eGW/nginx.conf.wcg
-%config(noreplace) /home/wcg/eGW/redis/redis_wcg.conf
-%config(noreplace) /home/wcg/eGW/nginx/nginx_wcg.conf
-%config(noreplace) /home/wcg/eGW/keepalived/keepalived_wcg.conf
+%config(noreplace) /home/wcg/eGW/redis/.redis_wcg.conf
+%config(noreplace) /home/wcg/eGW/nginx/.nginx_wcg.conf
+%config(noreplace) /home/wcg/eGW/keepalived/.keepalived_wcg.conf
 #%config(missingok) /home/wcg/eGW/keepalived.conf.wcg
 #%config(missingok) /home/wcg/eGW/nginx.conf.wcg
 /usr/lib/systemd/system/*
@@ -83,8 +123,6 @@ ls | grep -v git.init | xargs rm -rf
 %exclude /home/wcg/eGW/nginx/nginx_wcg.service
 %exclude /home/wcg/eGW/keepalived/keepalived_wcg.service
 %exclude /home/wcg/eGW/initWCGOS.sh
-%exclude /home/wcg/eGW/Config.sh/crypt.sh
-%exclude /home/wcg/eGW/Config.sh/watchdog_crypt.sh
 #%exclude /root/eGW/keepalived.conf
 #%exclude /root/eGW/nginx.conf
 #%ghost

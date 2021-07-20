@@ -60,11 +60,12 @@ function makerpm_egw() {
         #--define "_gpg_name baicells <baicells@baicells.com>" \
         #--define "_gpgbin $(which gpg)" \
         #--sign
-    if [[ $spec == "SPECS/egw.spec" ]];then
-        mv -f RPMS/x86_64/$name-$version-$release*.rpm .
-    elif [[ $spec == "SPECS/egw_base.spec" ]];then
-        mv -f RPMS/x86_64/$name-$version-$release*.rpm .
-    fi
+    #if [[ $spec == "SPECS/egw.spec" ]];then
+    #    mv -f RPMS/x86_64/$name-$version-$release*.rpm .
+    #elif [[ $spec == "SPECS/egw_base.spec" ]];then
+    #    mv -f RPMS/x86_64/$name-$version-$release*.rpm .
+    #fi
+    mv -f RPMS/x86_64/$name-$version-$release*.rpm .
     rm -f RPMS/x86_64/*.rpm
     rm -f SOURCES/$name-$version.tar.gz
 }
@@ -124,7 +125,7 @@ init SPECS/egw.spec
 init SPECS/egw_base.spec
 init SPECS/egw_India.spec
 
-ARGS=`getopt -o hbv:s:r: --long help,base,version,sign:,release: -- "$@"`
+ARGS=`getopt -o hbv:s:r: --long help,base,India,version,sign:,release: -- "$@"`
 if [ $? != 0 ] ; then echo "Terminating..." >&2 ; exit 1 ; fi
 eval set -- "$ARGS"
 while true;do
@@ -171,14 +172,11 @@ while true;do
 done
 
 if [[ $spec_b ]];then
-    makerpm_egw $spec_b
-    addsign $spec_b
+    makerpm_egw $spec_b && addsign
 fi
 if [[ $spec_i ]];then
-    makerpm_egw $spec_i
-    addsign $spec_i
+    makerpm_egw $spec_i && addsign
 fi
-makerpm_egw SPECS/egw.spec
-addsign SPECS/egw.spec
+makerpm_egw SPECS/egw.spec && addsign
 
 
