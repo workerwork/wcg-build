@@ -12,6 +12,7 @@ Usage:
     -v/--version 1.0.0(可选)
 	-r/--release 1（可选）
     -b/--base(可选)    #制作基础版本包 
+       --India(可选)   #制作印度版本包 
 
 ### 在rpmbuild路径下会生成rpm包
 
