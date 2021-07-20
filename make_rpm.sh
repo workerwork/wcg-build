@@ -122,6 +122,7 @@ installsoftware
 #init
 init SPECS/egw.spec
 init SPECS/egw_base.spec
+init SPECS/egw_India.spec
 
 ARGS=`getopt -o hbv:s:r: --long help,base,version,sign:,release: -- "$@"`
 if [ $? != 0 ] ; then echo "Terminating..." >&2 ; exit 1 ; fi
@@ -136,16 +137,22 @@ while true;do
         -r|--release)
             setrelease_egw SPECS/egw.spec $2
             setrelease_egw SPECS/egw_base.spec $2
+            setrelease_egw SPECS/egw_India.spec $2
             shift 2
             ;;
         -v|--version)
             setversion_egw SPECS/egw.spec $2
             setversion_egw SPECS/egw_base.spec $2
+            setversion_egw SPECS/egw_India.spec $2
             #echo "version: $2"
             shift 2
             ;;
         -b|--base)
             spec_b=SPECS/egw_base.spec
+            shift
+            ;;
+        --India)
+            spec_i=SPECS/egw_India.spec
             shift
             ;;
         -h|--help)
@@ -163,10 +170,15 @@ while true;do
     esac
 done
 
-if [[ ! $spec_b ]];then
-    spec_b=SPECS/egw.spec
+if [[ $spec_b ]];then
+    makerpm_egw $spec_b
+    addsign $spec_b
 fi
-makerpm_egw $spec_b
-addsign $spec_b
+if [[ $spec_i ]];then
+    makerpm_egw $spec_i
+    addsign $spec_i
+fi
+makerpm_egw SPECS/egw.spec
+addsign SPECS/egw.spec
 
 

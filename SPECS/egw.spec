@@ -1,8 +1,8 @@
 #制作WCG版本的spec文件
 
 Name:       WCG
-Version:    2.0.1
-Release:    4%{?dist}
+Version:    1.0.0
+Release:    1%{?dist}
 Summary:    WCG rpm package
 
 License:    GPL
