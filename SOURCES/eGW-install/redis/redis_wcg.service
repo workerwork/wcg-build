@@ -3,8 +3,8 @@ Description=Redis persistent key-value database
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/redis-server /root/eGW/redis/redis_wcg.conf --daemonize no
-ExecStop=/root/eGW/redis/redis_wcg-shutdown
+ExecStart=/usr/bin/redis-server /etc/eGW/redis/redis_wcg.conf --daemonize no
+ExecStop=/usr/lib/eGW/redis/redis_wcg-shutdown
 User=root
 Group=root
 RuntimeDirectory=root

@@ -1,12 +1,13 @@
 #!/bin/bash -
 #########################################################################################
 # init.sh
-# version:5.0
-# update:20210520
+# version:6.0
+# update:20210805
 #########################################################################################
 
 function init_dir() {
-    for dir in history keepalived ltegwd sctpd tcpdump vtysh watchdog omcapi/manage omcapi/monitor omcapi/report
+    for dir in history keepalived redis nginx ltegwd sctpd tcpdump vtysh vtyhistory watchdog \
+	omcapi/manage omcapi/monitor omcapi/report omcapi/alarm
     do
         [[ ! -d $LOG_DIR/$dir ]] && mkdir -p $LOG_DIR/$dir
     done
@@ -47,11 +48,8 @@ function init_redis() {
         grep "^bind $redisHost" $REDIS_CONF
         if [[ $? == 1 ]];then
             sed -i "s@^bind .*@bind ${redisHost}@g" $REDIS_CONF
-            #systemctl restart redis_wcg
         fi
     fi
-    #local redis_wcg_pid=$(ps -ef | grep redis-server | grep $redisPort | awk '{print $2}')
-    #[[ $redis_wcg_pid ]] || systemctl restart redis_wcg
     systemctl restart redis_wcg
     while :
     do
@@ -66,9 +64,9 @@ function init_redis() {
 }
 
 function init_nginx() {
-    for dir in conf.d default.d log
+    for dir in conf.d default.d
     do
-        [[ ! -d $NGINX_DIR/$dir ]] && mkdir -p $NGINX_DIR/$dir
+        [[ ! -d $NGINX_CONF_DIR/$dir ]] && mkdir -p $NGINX_CONF_DIR/$dir
     done
     systemctl restart nginx_wcg
 }
@@ -123,8 +121,8 @@ function start_ipsec() {
 }
 
 function init_gwrec() {
-    if [[ -f $BASE_DIR/lo.bin ]] && [[ -f $BASE_DIR/ls.bin ]];then
-        $BASE_DIR/gwrec &
+    if [[ -f $LIB_DIR/lo.bin ]] && [[ -f $LIB_DIR/ls.bin ]];then
+        $LIB_DIR/gwrec &
     else
         echo "can't start gwrec,exit!"
         exit 1

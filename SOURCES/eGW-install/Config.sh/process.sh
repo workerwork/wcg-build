@@ -1,8 +1,8 @@
 #!/bin/bash -
 #########################################################################################
 # process.sh
-# version:5.0
-# update:20210520
+# version:6.0
+# update:20210805
 #########################################################################################
 function start_egw_manage() {
     export exec_egw_manage="$OMC_DIR/egw_manage"
@@ -35,17 +35,17 @@ function start_gtp_ko() {
 }
 
 function start_gwrec() {
-    export exec_gwrec="$BASE_DIR/gwrec"
+    export exec_gwrec="$LIB_DIR/gwrec"
     [[ $1 ]] && $exec_gwrec &  
 }
 
 function start_ltegwd() {
-    export exec_ltegwd="$BASE_DIR/ltegwd 4"
+    export exec_ltegwd="$LIB_DIR/ltegwd 4"
     $exec_ltegwd &
 }
 
 function start_sctpd() {
-    export exec_sctpd="$BASE_DIR/sctpd"
+    export exec_sctpd="$LIB_DIR/sctpd"
     $exec_sctpd &
 }
 

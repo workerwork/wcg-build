@@ -2,9 +2,9 @@
 ###############################################################
 ## eGW_tcpdump.sh
 ## version: 3.0
-## update：20180503
+## update：20210805
 ###############################################################
-LOG_PATH=/root/eGW/Logs/tcpdump
+LOG_PATH=/var/log/eGW/tcpdump
 MINSIZE=50000000
 TIMER=5
 

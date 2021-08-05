@@ -1,8 +1,8 @@
 #!/bin/bash -
 #########################################################################################
 # watchdog_ps.sh
-# version:5.0
-# update:20210520
+# version:6.0
+# update:20210805
 #########################################################################################
 function watch_ps() {
     task=$1
@@ -30,7 +30,7 @@ function watchdog_log() {
 
 function ps_ltegwd() {
     local count=$(ps -ef |grep ${exec_ltegwd}$|grep -v 'grep'|wc -l)
-    if [[ $count == 0 ]] && [[ -f $BASE_DIR/lo.bin ]] && [[ -f $BASE_DIR/ls.bin ]];then       
+    if [[ $count == 0 ]] && [[ -f $LIB_DIR/lo.bin ]] && [[ -f $LIB_DIR/ls.bin ]];then       
         start_autoinfo
         watchdog_log "ltegwd restart"
         $redisShort hset eGW-status eGW-ps-state-ltegwd 1
@@ -47,7 +47,7 @@ function ps_ltegwd() {
 
 function ps_gwrec() {
     local count=$(ps -ef |grep ${exec_gwrec}$|grep -v 'grep'|wc -l)
-    if [[ $count == 0 ]] && [[ -f $BASE_DIR/lo.bin ]] && [[ -f $BASE_DIR/ls.bin ]];then
+    if [[ $count == 0 ]] && [[ -f $LIB_DIR/lo.bin ]] && [[ -f $LIB_DIR/ls.bin ]];then
         start_autoinfo
         watchdog_log "gwrec restart"
         $redisShort hset eGW-status eGW-ps-state-gwrec 1
@@ -64,7 +64,7 @@ function ps_gwrec() {
 
 function ps_sctpd() {
     local count=$(ps -ef |grep ${exec_sctpd}$|grep -v 'grep'|wc -l)
-    if [[ $count == 0 ]] && [[ -f $BASE_DIR/lo.bin ]] && [[ -f $BASE_DIR/ls.bin ]];then
+    if [[ $count == 0 ]] && [[ -f $LIB_DIR/lo.bin ]] && [[ -f $LIB_DIR/ls.bin ]];then
         start_autoinfo
         watchdog_log "sctpd restart"
         $redisShort hset eGW-status eGW-ps-state-sctpd 1

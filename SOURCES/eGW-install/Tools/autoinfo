@@ -1,10 +1,10 @@
 #!/bin/bash -
 #########################################################################################
 # autoinfo.sh
-# version:2.0
-# update:20210601
+# version:3.0
+# update:20210805
 #########################################################################################
-LOGPATH="/root/eGW/Logs"
+LOGPATH="/var/log/eGW"
 DIR="$LOGPATH/autoinfo"
 [[ ! -d $DIR ]] && mkdir -p $DIR
 
@@ -62,7 +62,7 @@ function process_info() {
 
 
 function coredump_info() {
-    process_info /root/coredump 600
+    process_info $LOGPATH/coredump 600
 }
 
 function ltegwd_info() {

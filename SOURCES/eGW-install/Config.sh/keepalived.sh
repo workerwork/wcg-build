@@ -5,7 +5,7 @@
 # update:20210520
 ##########################################################################################
 LOG_PATH="$LOG_DIR/keepalived"
-HA_STATUS="/root/eGW/.ha.status"
+HA_STATUS="/usr/lib/eGW/.ha.status"
 NOTIFY=$1
 
 function keepalived() {

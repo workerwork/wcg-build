@@ -1,8 +1,8 @@
 #!/bin/bash -
 #########################################################################################
 # watchdog_log.sh
-# version:5.0
-# update:20210520
+# version:6.0
+# update:20210805
 #########################################################################################
 function watch_log() {
     task=$1
@@ -76,12 +76,20 @@ function monitor_log() {
     del_log "$LOG_DIR/omcapi/monitor/egw_monitor.log_*" $1
 }
 
+function alarm_log() {
+    del_log "$LOG_DIR/omcapi/alarm/alarm.log_*" $1
+}
+
 function vtysh_log() {
     del_log "$LOG_DIR/vtysh/vtysh.log_*" $1
 }
 
+function vtyhistory_log() {
+    del_log "$LOG_DIR/vtyhistory/vtyhistory.log_*" $1
+}
+
 function core_log() {
-    del_log "/root/coredump/core-ltegwd-*" $1
+    del_log "$LOG_DIR/coredump/core-ltegwd-*" $1
 }
 
 function crash_log() {

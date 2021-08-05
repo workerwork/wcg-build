@@ -13,7 +13,7 @@
 		<monitor_process_switch>0</monitor_process_switch>
 		<monitor_log_config>
 			<log_max_file_size>104857600</log_max_file_size>
-			<log_file_path>/root/eGW/Logs/omcapi/monitor/egw_monitor.log</log_file_path>
+			<log_file_path>/var/log/eGW/omcapi/monitor/egw_monitor.log</log_file_path>
 		</monitor_log_config>		
 	</common>
 	<monitor_process_config>
@@ -21,6 +21,9 @@
 		<proc_name>egw_manage</proc_name>
 		<proc_name>egw_report</proc_name>
 		<proc_name>egw_manage_logger</proc_name>
+		<proc_name>sctpd</proc_name>
+		<proc_name>gwrec</proc_name>
+		<proc_name>kpiMain</proc_name>
 	</monitor_process_config>
 	<sys_status_config>
 		<cpu_usage_status_config>
@@ -39,19 +42,23 @@
 		<log_status_config>
 			<log_status>
 				<log_size_max_limit>500</log_size_max_limit>
-				<log_path>/root/eGW/Logs/omcapi/manage</log_path>
+				<log_path>/var/log/eGW/omcapi/manage</log_path>
 			</log_status>
 			<log_status>
 				<log_size_max_limit>500</log_size_max_limit>
-				<log_path>/root/eGW/Logs/omcapi/report</log_path>
+				<log_path>/var/log/eGW/omcapi/report</log_path>
 			</log_status>
 			<log_status>
 				<log_size_max_limit>500</log_size_max_limit>
-				<log_path>/root/eGW/Logs/omcapi/monitor</log_path>
+				<log_path>/var/log/eGW/omcapi/monitor</log_path>
 			</log_status>
 			<log_status>
 				<log_size_max_limit>500</log_size_max_limit>
-				<log_path>/root/eGW/Logs/ltegwd</log_path>
+				<log_path>/var/log/eGW/ltegwd</log_path>
+			</log_status>
+			<log_status>
+				<log_size_max_limit>500</log_size_max_limit>
+				<log_path>/var/log/eGW/sctpd</log_path>
 			</log_status>			
 		</log_status_config>
 		<nic_status_config>

@@ -5,8 +5,8 @@ After=network.target multi-user.target
 
 [Service]
 Type=forking
-ExecStart=/root/eGW/startAll.sh
-ExecStop=/root/eGW/stopAll.sh
+ExecStart=/usr/lib/eGW/startAll.sh
+ExecStop=/usr/lib/eGW/stopAll.sh
 
 [Install]
 WantedBy=multi-user.target

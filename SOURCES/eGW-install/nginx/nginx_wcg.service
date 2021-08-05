@@ -9,8 +9,8 @@ PIDFile=/run/nginx.pid
 # SELinux context. This might happen when running `nginx -t` from the cmdline.
 # https://bugzilla.redhat.com/show_bug.cgi?id=1268621
 ExecStartPre=/usr/bin/rm -f /run/nginx.pid
-ExecStartPre=/usr/sbin/nginx -t -c /root/eGW/nginx/nginx_wcg.conf
-ExecStart=/usr/sbin/nginx -c /root/eGW/nginx/nginx_wcg.conf
+ExecStartPre=/usr/sbin/nginx -t -c /etc/eGW/nginx/nginx_wcg.conf
+ExecStart=/usr/sbin/nginx -c /etc/eGW/nginx/nginx_wcg.conf
 ExecReload=/bin/kill -s HUP $MAINPID
 KillSignal=SIGQUIT
 TimeoutStopSec=5
