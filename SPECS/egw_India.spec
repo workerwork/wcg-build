@@ -26,19 +26,15 @@ The rpm package for WCG_V install!
 
 %install
 rm -rf $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT/etc/eGW/{redis,nginx,keepalived}
+mkdir -p $RPM_BUILD_ROOT/etc/.eGW/{redis,nginx,keepalived}
 #mkdir -p $RPM_BUILD_ROOT/usr/bin
 mkdir -p $RPM_BUILD_ROOT/usr/lib/eGW
 #mkdir -p $RPM_BUILD_ROOT/var/log/eGW
 mkdir -p $RPM_BUILD_ROOT/usr/lib/systemd/system
 #cp -rf vtysh $RPM_BUILD_ROOT/usr/bin
-#pushd $RPM_BUILD_ROOT/usr/lib/eGW
 sed -i 's/\(egw.log\)/.\1/' eGWLogCfg.conf
+sed -i 's@\(/etc/\)\(eGW\)@\1.\2@' startAll.sh
 sed -i 's/\(Config.sh\)/.\1/' startAll.sh
-sed -i 's/\(redis_wcg.conf\)/.\1/' startAll.sh
-sed -i 's/\(networkcfg.conf\)/.\1/' startAll.sh
-sed -i 's/\(ha.conf\)/.\1/' startAll.sh
-sed -i 's/\(gotty.conf\)/.\1/' startAll.sh
 sed -i '/#start watchdog/i #start crypt log \n$CUR_DIR/watchdog_crypt.sh &\n' startAll.sh
 sed -i 's/\(vtysh.log\)/.\1/' vtyshLogCfg.conf
 sed -i 's/\(vtyhistory.log\)/.\1/' vtyshLogCfg.conf
@@ -50,31 +46,20 @@ sed -i 's/\(egw_manage.log\)/.\1/' OMC/eGW_Cfg_Info.xml
 sed -i 's/\(egw_monitor.log\)/.\1/' OMC/eGW_Monitor_Cfg_Info.xml
 sed -i 's/\(startOm.sh\)/.\1/' OMC/om.service
 sed -i 's/\(stopOm.sh\)/.\1/' OMC/om.service
-sed -i 's/\(redis_wcg.conf\)/.\1/' redis/redis_wcg.service
-sed -i 's/\(redis_wcg-shutdown\)/.\1/' redis/redis_wcg.service
-sed -i 's/\(nginx_wcg.conf\)/.\1/' nginx/nginx_wcg.service
+sed -i 's@\(/etc/\)\(eGW\)@\1.\2@' redis/redis_wcg.service
+sed -i 's@\(/etc/\)\(eGW\)@\1.\2@' redis/redis_wcg-shutdown
+sed -i 's@\(/etc/\)\(eGW\)@\1.\2@' nginx/nginx_wcg.service
 sed -i 's/\(Config.sh\)/.\1/' keepalived/keepalived_wcg.conf
-sed -i 's/\(keepalived_wcg.conf\)/.\1/' keepalived/keepalived_wcg.service
+sed -i 's@\(/etc/\)\(eGW\)@\1.\2@' keepalived/keepalived_wcg.service
 
-for file in networkcfg.conf ha.conf eGWLogCfg.conf gotty.conf ltegwd.xml startAll.sh stopAll.sh vtyshLogCfg.conf \
-            OMC/eGW_Cfg_Info.xml OMC/eGW_Monitor_Cfg_Info.xml OMC/startOm.sh OMC/stopOm.sh \
-            redis/redis_wcg.conf redis/redis_wcg-shutdown \
-            nginx/nginx_wcg.conf \
-            keepalived/keepalived_wcg.conf
+for file in startAll.sh stopAll.sh OMC/startOm.sh OMC/stopOm.sh
 do
   if [[ ${file:0:4} == "OMC/" ]];then
     mv $file OMC/.${file:4}
-  elif [[ ${file:0:6} == "redis/" ]];then
-    mv $file redis/.${file:6}
-  elif [[  ${file:0:6} == "nginx/" ]];then
-    mv $file nginx/.${file:6}
-  elif [[  ${file:0:11} == "keepalived/" ]];then
-    mv $file keepalived/.${file:11}
   else
     mv $file .${file}
   fi
 done
-#popd
 
 cp -arf . $RPM_BUILD_ROOT/usr/lib/eGW
 cp -rf monitor.service $RPM_BUILD_ROOT/usr/lib/systemd/system
@@ -82,18 +67,19 @@ cp -rf OMC/om.service $RPM_BUILD_ROOT/usr/lib/systemd/system
 cp -rf redis/redis_wcg.service $RPM_BUILD_ROOT/usr/lib/systemd/system
 cp -rf nginx/nginx_wcg.service $RPM_BUILD_ROOT/usr/lib/systemd/system
 cp -rf keepalived/keepalived_wcg.service $RPM_BUILD_ROOT/usr/lib/systemd/system
-cp -rf eGWLogCfg.conf $RPM_BUILD_ROOT/etc/eGW
-cp -rf gotty.conf $RPM_BUILD_ROOT/etc/eGW
-cp -rf ha.conf $RPM_BUILD_ROOT/etc/eGW
-cp -rf ltegwd.xml $RPM_BUILD_ROOT/etc/eGW
-cp -rf networkcfg.conf $RPM_BUILD_ROOT/etc/eGW
-cp -rf vtyshLogCfg.conf $RPM_BUILD_ROOT/etc/eGW
-cp -rf OMC/kpimain.conf $RPM_BUILD_ROOT/etc/eGW
-cp -rf OMC/eGW_Cfg_Info.xml $RPM_BUILD_ROOT/etc/eGW
-cp -rf OMC/eGW_Monitor_Cfg_Info.xml $RPM_BUILD_ROOT/etc/eGW
-cp -rf redis/redis_wcg.conf $RPM_BUILD_ROOT/etc/eGW/redis
-cp -rf nginx/nginx_wcg.conf $RPM_BUILD_ROOT/etc/eGW/nginx
-cp -rf keepalived/keepalived_wcg.conf $RPM_BUILD_ROOT/etc/eGW/keepalived
+cp -rf eGWLogCfg.conf $RPM_BUILD_ROOT/etc/.eGW
+cp -rf gotty.conf $RPM_BUILD_ROOT/etc/.eGW
+cp -rf ha.conf $RPM_BUILD_ROOT/etc/.eGW
+cp -rf ltegwd.xml $RPM_BUILD_ROOT/etc/.eGW
+cp -rf networkcfg.conf $RPM_BUILD_ROOT/etc/.eGW
+cp -rf vtyshLogCfg.conf $RPM_BUILD_ROOT/etc/.eGW
+cp -rf OMC/kpimain.conf $RPM_BUILD_ROOT/etc/.eGW
+cp -rf OMC/eGW_Cfg_Info.xml $RPM_BUILD_ROOT/etc/.eGW
+cp -rf OMC/eGW_Monitor_Cfg_Info.xml $RPM_BUILD_ROOT/etc/.eGW
+cp -rf redis/redis_wcg.conf $RPM_BUILD_ROOT/etc/.eGW/redis
+cp -rf redis/redis_wcg-shutdown $RPM_BUILD_ROOT/etc/.eGW/redis
+cp -rf nginx/nginx_wcg.conf $RPM_BUILD_ROOT/etc/.eGW/nginx
+cp -rf keepalived/keepalived_wcg.conf $RPM_BUILD_ROOT/etc/.eGW/keepalived
 
 
 %clean
@@ -106,8 +92,8 @@ ls | grep -v git.init | xargs rm -rf
 %doc
 %config(noreplace) /usr/lib/eGW/lo.bin
 %config(noreplace) /usr/lib/eGW/ls.bin
-%config(noreplace) /etc/eGW
-/etc/eGW
+%config(noreplace) /etc/.eGW
+/etc/.eGW
 /usr/lib/eGW
 /usr/lib/systemd/system/*
 %exclude /usr/lib/eGW/monitor.service
@@ -115,18 +101,18 @@ ls | grep -v git.init | xargs rm -rf
 %exclude /usr/lib/eGW/redis/redis_wcg.service
 %exclude /usr/lib/eGW/nginx/nginx_wcg.service
 %exclude /usr/lib/eGW/keepalived/keepalived_wcg.service
-%exclude /usr/lib/eGW/.eGWLogCfg.conf
-%exclude /usr/lib/eGW/.gotty.conf
-%exclude /usr/lib/eGW/.ha.conf
-%exclude /usr/lib/eGW/.ltegwd.xml
-%exclude /usr/lib/eGW/.networkcfg.conf
-%exclude /usr/lib/eGW/.vtyshLogCfg.conf
-%exclude /usr/lib/eGW/OMC/.kpimain.conf
-%exclude /usr/lib/eGW/OMC/.eGW_Cfg_Info.xml
-%exclude /usr/lib/eGW/OMC/.eGW_Monitor_Cfg_Info.xml
-%exclude /usr/lib/eGW/redis/.redis_wcg.conf
-%exclude /usr/lib/eGW/nginx/.nginx_wcg.conf
-%exclude /usr/lib/eGW/keepalived/.keepalived_wcg.conf
+%exclude /usr/lib/eGW/eGWLogCfg.conf
+%exclude /usr/lib/eGW/gotty.conf
+%exclude /usr/lib/eGW/ha.conf
+%exclude /usr/lib/eGW/ltegwd.xml
+%exclude /usr/lib/eGW/networkcfg.conf
+%exclude /usr/lib/eGW/vtyshLogCfg.conf
+%exclude /usr/lib/eGW/OMC/kpimain.conf
+%exclude /usr/lib/eGW/OMC/eGW_Cfg_Info.xml
+%exclude /usr/lib/eGW/OMC/eGW_Monitor_Cfg_Info.xml
+%exclude /usr/lib/eGW/redis/redis_wcg.conf
+%exclude /usr/lib/eGW/nginx/nginx_wcg.conf
+%exclude /usr/lib/eGW/keepalived/keepalived_wcg.conf
 %exclude /usr/lib/eGW/initWCGOS.sh
 %exclude /usr/lib/eGW/Config.sh/crypt.sh
 %exclude /usr/lib/eGW/Config.sh/watchdog_crypt.sh
