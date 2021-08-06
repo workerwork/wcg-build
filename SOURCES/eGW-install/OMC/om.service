@@ -5,8 +5,8 @@ After=network.target redis_wcg.service
 
 [Service]
 Type=forking
-ExecStart=/root/eGW/OMC/startOm.sh
-ExecStop=/root/eGW/OMC/stopOm.sh
+ExecStart=/usr/lib/eGW/OMC/startOm.sh
+ExecStop=/usr/lib/eGW/OMC/stopOm.sh
 
 [Install]
 WantedBy=multi-user.target

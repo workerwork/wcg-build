@@ -1,7 +1,7 @@
 #制作WCG_V版本的spec文件
 
 Name:       WCG_V
-Version:    1.0.0
+Version:    2.1.0
 Release:    1%{?dist}
 Summary:    WCG_V rpm package
 
@@ -70,20 +70,41 @@ do
   fi
 done
 popd
-#rm -rf $RPM_BUILD_ROOT/root/eGW/monitor.service
-#rm -rf $RPM_BUILD_ROOT/root/eGW/om.service
-#rm -rf $RPM_BUILD_ROOT/root/eGW/keepalived.conf
-#rm -rf $RPM_BUILD_ROOT/root/eGW/OMC/nginx.conf
 mkdir -p $RPM_BUILD_ROOT/usr/lib/systemd/system
 cp -rf monitor.service $RPM_BUILD_ROOT/usr/lib/systemd/system
 cp -rf OMC/om.service $RPM_BUILD_ROOT/usr/lib/systemd/system
 cp -rf redis/redis_wcg.service $RPM_BUILD_ROOT/usr/lib/systemd/system
 cp -rf nginx/nginx_wcg.service $RPM_BUILD_ROOT/usr/lib/systemd/system
 cp -rf keepalived/keepalived_wcg.service $RPM_BUILD_ROOT/usr/lib/systemd/system
-#mkdir -p $RPM_BUILD_ROOT/etc/keepalived
-#cp -rf keepalived.conf $RPM_BUILD_ROOT/etc/keepalived/keepalived.conf.wcg
-#mkdir -p $RPM_BUILD_ROOT/etc/nginx
-#cp -rf nginx.conf $RPM_BUILD_ROOT/etc/nginx/nginx.conf.wcg
+###############################################################################
+rm -rf $RPM_BUILD_ROOT
+mkdir -p $RPM_BUILD_ROOT/etc/eGW/{redis,nginx,keepalived}
+#mkdir -p $RPM_BUILD_ROOT/usr/bin
+mkdir -p $RPM_BUILD_ROOT/usr/lib/eGW
+#mkdir -p $RPM_BUILD_ROOT/var/log/eGW
+mkdir -p $RPM_BUILD_ROOT/usr/lib/systemd/system
+cp -arf . $RPM_BUILD_ROOT/usr/lib/eGW
+#cp -rf vtysh $RPM_BUILD_ROOT/usr/bin
+pushd $RPM_BUILD_ROOT/usr/lib/eGW
+
+popd
+cp -rf monitor.service $RPM_BUILD_ROOT/usr/lib/systemd/system
+cp -rf OMC/om.service $RPM_BUILD_ROOT/usr/lib/systemd/system
+cp -rf redis/redis_wcg.service $RPM_BUILD_ROOT/usr/lib/systemd/system
+cp -rf nginx/nginx_wcg.service $RPM_BUILD_ROOT/usr/lib/systemd/system
+cp -rf keepalived/keepalived_wcg.service $RPM_BUILD_ROOT/usr/lib/systemd/system
+cp -rf eGWLogCfg.conf $RPM_BUILD_ROOT/etc/eGW
+cp -rf gotty.conf $RPM_BUILD_ROOT/etc/eGW
+cp -rf ha.conf $RPM_BUILD_ROOT/etc/eGW
+cp -rf ltegwd.xml $RPM_BUILD_ROOT/etc/eGW
+cp -rf networkcfg.conf $RPM_BUILD_ROOT/etc/eGW
+cp -rf vtyshLogCfg.conf $RPM_BUILD_ROOT/etc/eGW
+cp -rf OMC/kpimain.conf $RPM_BUILD_ROOT/etc/eGW
+cp -rf OMC/eGW_Cfg_Info.xml $RPM_BUILD_ROOT/etc/eGW
+cp -rf OMC/eGW_Monitor_Cfg_Info.xml $RPM_BUILD_ROOT/etc/eGW
+cp -rf redis/redis_wcg.conf $RPM_BUILD_ROOT/etc/eGW/redis
+cp -rf nginx/nginx_wcg.conf $RPM_BUILD_ROOT/etc/eGW/nginx
+cp -rf keepalived/keepalived_wcg.conf $RPM_BUILD_ROOT/etc/eGW/keepalived
 
 
 %clean
@@ -106,16 +127,10 @@ ls | grep -v git.init | xargs rm -rf
 %config(noreplace) /home/wcg/eGW/OMC/.eGW_Monitor_Cfg_Info.xml
 %config(noreplace) /home/wcg/eGW/.ltegwd.xml
 %config(noreplace) /home/wcg/eGW/.gotty.conf
-#%config(noreplace) /root/eGW/keepalived.conf.wcg
-#%config(noreplace) /root/eGW/nginx.conf.wcg
 %config(noreplace) /home/wcg/eGW/redis/.redis_wcg.conf
 %config(noreplace) /home/wcg/eGW/nginx/.nginx_wcg.conf
 %config(noreplace) /home/wcg/eGW/keepalived/.keepalived_wcg.conf
-#%config(missingok) /home/wcg/eGW/keepalived.conf.wcg
-#%config(missingok) /home/wcg/eGW/nginx.conf.wcg
 /usr/lib/systemd/system/*
-#/etc/keepalived/*
-#/etc/nginx/*
 /home/wcg/eGW
 %exclude /home/wcg/eGW/monitor.service
 %exclude /home/wcg/eGW/OMC/om.service
@@ -123,15 +138,13 @@ ls | grep -v git.init | xargs rm -rf
 %exclude /home/wcg/eGW/nginx/nginx_wcg.service
 %exclude /home/wcg/eGW/keepalived/keepalived_wcg.service
 %exclude /home/wcg/eGW/initWCGOS.sh
-#%exclude /root/eGW/keepalived.conf
-#%exclude /root/eGW/nginx.conf
 #%ghost
 #%verify[not]
 #%docdir
 #%dir
 
 %changelog
-* Thu Feb 08 2018 dongfeng <18510416169@qq.com> 本次版本0.0.1-1
+* Thu Feb 08 2018 workerwork <workerwork@qq.com> 本次版本0.0.1-1
 - this is just a test for changelog!
 
 #*****************************************************************************************#
@@ -150,7 +163,6 @@ function kernel_chk() {
     ver_kernel=$(uname -r)
     if [[ $ver_kernel != $ver_std ]];then
         action "system kernel check" /bin/false
-        #echo "system kernel must be $ver_std1 or $ver_std2, please check!"
         exit 1
     else
         action "system kernel check" /bin/true
@@ -182,36 +194,13 @@ pre_WCG_ins
 source /etc/init.d/functions
 
 rpm_type=$1
-DIR=/root/eGW
-[[ -d /root/eGW  ]] && rm -rf /root/eGW
-ln -sf /home/wcg/eGW /root/eGW
-
-#add exec for WCG-files
-#function WCG_addx() {
-#    cd $DIR
-#    chmod +x startAll.sh
-#    chmod +x ltegwd
-#    chmod +x vtysh
-#    chmod +x vman
-#    chmod +x update
-#    chmod +x ${DIR}/Tools/*
-#    chmod +x ${DIR}/Config.sh/*.sh
-#    chmod +x ${DIR}/OMC/egw_manage
-#    chmod +x ${DIR}/OMC/egw_report
-#    chmod +x ${DIR}/OMC/egw_manage_logger
-#    chmod +x ${DIR}/OMC/egw_monitor
-#    chmod +x ${DIR}/OMC/egw_om
-#    chmod +x ${DIR}/OMC/startOm.sh
-#    chmod +x ${DIR}/OMC/stopOm.sh
-#    chmod +x ${DIR}/Licence/register
-	
-#    action "chmod +x *" /bin/true
-#}
+DIR=/usr/lib/eGW
+#[[ -d /root/eGW  ]] && rm -rf /root/eGW
+#ln -sf /home/wcg/eGW /root/eGW
+ln -sf /usr/lib/eGW/vtysh /usr/bin/vtysh
 
 #register WCG and enable service
 function WCG_reg() {
-    #cd ${DIR}/Licence
-    #${DIR}/Licence/register
     systemctl daemon-reload
     systemctl enable monitor.service
     (($? == 0)) && action "systemctl enable monitor.service" /bin/true || \
@@ -221,48 +210,6 @@ function WCG_reg() {
     (($? == 0)) && action "systemctl enable/start om.service" /bin/true || \
     action "systemctl enable/start om.service" /bin/false
 }
-
-#config nginx
-#function nginx_cfg() {
-    #[ ! -d "/usr/share/nginx/logs" ] && mkdir -p /usr/share/nginx/logs
-    #LANG=C grep 'server_name eGW_omc' /etc/nginx/nginx.conf 2>&1>/dev/null || \
-    #sed -i '/include \/etc\/nginx\/conf.d\/\*.conf;/r nginx_add.txt' /etc/nginx/nginx.conf
-    #rm -rf ${DIR}/nginx_add.txt
-    #systemctl enable nginx.service && systemctl restart nginx.service
-    #(($? == 0)) && action "nginx start" /bin/true || \
-    #action "nginx start" /bin/false
-#}
-#function nginx_cfg() {
-    #if [[ $rpm_type == 1 ]];then
-        #mv -f /root/eGW/nginx.conf.wcg /etc/nginx/nginx.conf
-    #elif [[ $rpm_type == 2 ]];then
-        #rm -rf /root/eGW/nginx.conf.wcg
-    #fi
-    #systemctl enable nginx_wcg.service && systemctl restart nginx_wcg.service
-    #(($? == 0)) && action "nginx_wcg start" /bin/true || \
-    #action "nginx_wcg start" /bin/false
-#}
-
-#config redis
-#function redis_cfg() {
-    #sed -i "s@.*\(appendonly[  ]\).*@\1yes@" /etc/redis.conf
-    #sed -i "s@.*\(auto-aof-rewrite-min-size[  ]\).*@\15mb@" /etc/redis.conf
-    #redis_pid=$(pidof redis-server)
-    #[ $redis_pid ] && redis-cli bgrewriteaof
-    #systemctl enable redis_wcg.service && systemctl restart redis_wcg.service
-    #(($? == 0)) && action "redis_wcg start" /bin/true || \
-    #action "redis_wcg start" /bin/false
-#}
-
-#config keepalived
-#function keepalived_cfg() {
-    #if [[ $rpm_type == 1 ]];then 
-        #mv -f /root/eGW/keepalived.conf.wcg /etc/keepalived/keepalived.conf
-    #elif [[ $rpm_type == 2 ]];then
-        #rm -rf /root/eGW/keepalived.conf.wcg
-    #fi
-    #action "keepalived configure" /bin/true
-#}
 
 #set system environment
 function system_env_set() {
@@ -356,13 +303,12 @@ function sysctl_set() {
 
 #set coredump
 function coredump_set() {
-    #[[ -d "/home/wcg/coredump" ]] && rm -rf /home/wcg/coredump
-    [ ! -d "/home/wcg/coredump" ] && mkdir -p /home/wcg/coredump && chmod 0773 /home/wcg/coredump
+    core_path="/var/log/eGW/coredump"
+    [ ! -d "$core_path" ] && mkdir -p $core_path && chmod 0773 $core_path
     [ -d "/root/coredump" ] && rm -rf /root/coredump
-    ln -sf /home/wcg/coredump /root/coredump
-    #[ ! -d "/root/coredump" ] && mkdir -p /root/coredump && chmod 0773 /root/coredump
+    #ln -sf /home/wcg/coredump /root/coredump
 
-    echo "kernel.core_pattern = /root/coredump/core-%e-sig%s-user%u-group%g-pid%p-time%t" > /etc/sysctl.d/core.conf
+    echo "kernel.core_pattern = $core_path/coredump/core-%e-sig%s-user%u-group%g-pid%p-time%t" > /etc/sysctl.d/core.conf
     echo "kernel.core_uses_pid = 1" >> /etc/sysctl.d/core.conf
     echo "fs.suid_dumpable = 2" >> /etc/sysctl.d/core.conf
     echo "*       hard        core        unlimited" > /etc/security/limits.d/core.conf
@@ -388,7 +334,7 @@ function coredump_set() {
 #set history
 function history_set() {
     file_cfg='/etc/bashrc'
-    prompt_command_format='if [[ $(whoami) == "root" ]];then { date "+%Y-%m-%d %T ##### $(who am i |awk "{print \$1\" \"\$2\" \"\$5}") #### $(pwd) #### $(history 1 | { read x cmd; echo "$cmd"; })"; } >> /root/eGW/Logs/history/$(date +"%Y%m%d").log 2>/dev/null;fi'
+    prompt_command_format='if [[ $(whoami) == "root" ]];then { date "+%Y-%m-%d %T ##### $(who am i |awk "{print \$1\" \"\$2\" \"\$5}") #### $(pwd) #### $(history 1 | { read x cmd; echo "$cmd"; })"; } >> /var/log/eGW/history/$(date +"%Y%m%d").log 2>/dev/null;fi'
     sed -i "/.*\(export PROMPT_COMMAND=\).*/d" $file_cfg
     echo "export PROMPT_COMMAND='$prompt_command_format'" >> $file_cfg
 
@@ -396,17 +342,6 @@ function history_set() {
 
     action "history configure" /bin/true
 }
-
-#set WCG_version
-#function WCG_ver_set() {
-#    version="WCG-1.6.1-test"
-#    mkdir -p /root/eGW/.version/versions
-#    #echo lccmd:$(md5sum /usr/sbin/lccmd |awk '{print $1}') > /root/eGW/.version/versions/${version}.ver
-#    echo ltegwd:$(md5sum /root/eGW/ltegwd |awk '{print $1}') > /root/eGW/.version/versions/${version}.ver
-#    echo gtp-relay.ko:$(md5sum /root/eGW/gtp-relay.ko |awk '{print $1}') >> /root/eGW/.version/versions/${version}.ver
-#
-#    action "version configure" /bin/true
-#}
 
 #set journal
 function journal_set() {
@@ -416,31 +351,15 @@ function journal_set() {
     action "journal configure" /bin/true
 }
 
-#function config_lnk_set() {
-#    ln -snf /etc/keepalived/keepalived.conf /root/eGW/keepalived.conf
-#    ln -snf /etc/nginx/nginx.conf /root/eGW/nginx.conf
-#}
-
-function mkdir_history() {
-    mkdir -p /root/eGW/Logs/history
-}
-
 function post_WCG_ins() {
     echo "**Run the shell after WCG install..."
     systemctl stop monitor
-    #WCG_addx
     WCG_reg
-    #nginx_cfg
-    #redis_cfg
-    #keepalived_cfg
     system_env_set
     sysctl_set
     coredump_set
     history_set
-    #WCG_ver_set
     journal_set
-    #config_lnk_set
-    mkdir_history
     #规避升级双版本问题
     #systemctl restart monitor.service
     #systemctl restart om.service
@@ -457,7 +376,7 @@ post_WCG_ins
 source /etc/init.d/functions
 
 rpm_type=$1
-DIR=/root/eGW
+DIR=/usr/lib/eGW
 
 function history_unset() {
     file_cfg='/etc/bashrc'
@@ -470,20 +389,6 @@ function history_unset() {
 
 function WCG_stop() {
     systemctl stop monitor.service 
-    tpid=$(pidof ltegwd)
-    [ $tpid ] && kill -9 $tpid
-    tpid=$(pidof startAll.sh)
-    [ $tpid ] && kill -9 $tpid
-    tpid=$(pidof vtysh)
-    [ $tpid ] && kill -9 $tpid
-    tpid=$(pidof egw_manage)
-    [ $tpid ] && kill -9 $tpid
-    tpid=$(pidof egw_report)
-    [ $tpid ] && kill -9 $tpid
-    tpid=$(pidof egw_manage_logger)
-    [ $tpid ] && kill -9 $tpid
-    tpid=$(pidof egw_monitor)
-    [ $tpid ] && kill -9 $tpid	
     action "systemctl stop monitor.service" /bin/true
 }
 

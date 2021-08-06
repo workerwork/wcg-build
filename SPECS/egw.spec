@@ -48,6 +48,7 @@ cp -rf OMC/kpimain.conf $RPM_BUILD_ROOT/etc/eGW
 cp -rf OMC/eGW_Cfg_Info.xml $RPM_BUILD_ROOT/etc/eGW
 cp -rf OMC/eGW_Monitor_Cfg_Info.xml $RPM_BUILD_ROOT/etc/eGW
 cp -rf redis/redis_wcg.conf $RPM_BUILD_ROOT/etc/eGW/redis
+cp -rf redis/redis_wcg-shutdown $RPM_BUILD_ROOT/etc/eGW/redis
 cp -rf nginx/nginx_wcg.conf $RPM_BUILD_ROOT/etc/eGW/nginx
 cp -rf keepalived/keepalived_wcg.conf $RPM_BUILD_ROOT/etc/eGW/keepalived
 
@@ -79,9 +80,9 @@ ls | grep -v git.init | xargs rm -rf
 %exclude /usr/lib/eGW/OMC/kpimain.conf
 %exclude /usr/lib/eGW/OMC/eGW_Cfg_Info.xml
 %exclude /usr/lib/eGW/OMC/eGW_Monitor_Cfg_Info.xml
-%exclude /usr/lib/eGW/redis/redis_wcg.conf
-%exclude /usr/lib/eGW/nginx/nginx_wcg.conf
-%exclude /usr/lib/eGW/keepalived/keepalived_wcg.conf
+%exclude /usr/lib/eGW/redis
+%exclude /usr/lib/eGW/nginx
+%exclude /usr/lib/eGW/keepalived
 %exclude /usr/lib/eGW/initWCGOS.sh
 %exclude /usr/lib/eGW/Config.sh/crypt.sh
 %exclude /usr/lib/eGW/Config.sh/watchdog_crypt.sh
@@ -149,8 +150,6 @@ ln -sf /usr/lib/eGW/vtysh /usr/bin/vtysh
 
 #register WCG and enable service
 function WCG_reg() {
-    #cd ${DIR}/Licence
-    #${DIR}/Licence/register
     systemctl daemon-reload
     systemctl enable monitor.service
     (($? == 0)) && action "systemctl enable monitor.service" /bin/true || \
@@ -302,26 +301,15 @@ function journal_set() {
     action "journal configure" /bin/true
 }
 
-#function mkdir_history() {
-#    mkdir -p /var/log/eGW/history
-#}
-
 function post_WCG_ins() {
     echo "**Run the shell after WCG install..."
     systemctl stop monitor
-    #WCG_addx
     WCG_reg
-    #nginx_cfg
-    #redis_cfg
-    #keepalived_cfg
     system_env_set
     sysctl_set
     coredump_set
     history_set
-    #WCG_ver_set
     journal_set
-    #config_lnk_set
-    #mkdir_history
     #规避升级双版本问题
     #systemctl restart monitor.service
     #systemctl restart om.service

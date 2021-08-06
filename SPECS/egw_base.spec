@@ -1,7 +1,7 @@
 #制作WCG版本的spec文件
 
 Name:       WCG
-Version:    1.0.0
+Version:    2.1.0
 Release:    1%{?dist}
 Summary:    WCG rpm package
 
