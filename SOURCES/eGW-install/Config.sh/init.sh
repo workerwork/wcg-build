@@ -120,15 +120,6 @@ function start_ipsec() {
     fi
 }
 
-function init_gwrec() {
-    if [[ -f $LIB_DIR/lo.bin ]] && [[ -f $LIB_DIR/ls.bin ]];then
-        $LIB_DIR/gwrec &
-    else
-        echo "can't start gwrec,exit!"
-        exit 1
-    fi
-}
-
 function init() {
     init_dir
     init_net
@@ -137,6 +128,5 @@ function init() {
     init_para
     read_para
     start_ipsec
-    init_gwrec
 }
 

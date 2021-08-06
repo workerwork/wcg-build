@@ -52,7 +52,7 @@ function ps_gwrec() {
         watchdog_log "gwrec restart"
         $redisShort hset eGW-status eGW-ps-state-gwrec 1
         $redisShort lpush eGW-alarm-ps gwrec:1
-        start_gwrec "true"
+        start_gwrec
     else
         gwrec_state=$($redisShort hget eGW-status eGW-ps-state-gwrec)
         if [[ $gwrec_state == 1 ]];then

@@ -4,8 +4,7 @@
 # version:6.0
 # update:20210805
 #########################################################################################
-
-#-------------------------------------------------
+#--------------------------------------------------------
 export LIB_DIR="/usr/lib/eGW"
 export LOG_DIR="/var/log/eGW"
 export CFG_DIR="/etc/eGW"
@@ -24,16 +23,21 @@ export GTP_KO="$LIB_DIR/gtp-relay.ko"
 export GOTTY_CONF="$CFG_DIR/gotty.conf"
 export GOTTY="$LIB_DIR/gotty"
 export VTYSH="$LIB_DIR/vtysh"
-#-------------------------------------------------
+export TR069_DIR="$LIB_DIR/TR069"
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${TR069_DIR}/lib
+#-------------------------------------------------------
 
 #init the redis nginx ipsec
 source $CUR_DIR/init.sh && init
+
+#start process
+source $CUR_DIR/process.sh && process_before_ha
 
 #configure keepalived
 source $CUR_DIR/keepalived.sh && keepalived
 
 #start process
-source $CUR_DIR/process.sh && process
+process_after_ha
 sleep 1
 
 #configure eGW

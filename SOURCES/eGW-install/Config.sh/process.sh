@@ -36,7 +36,28 @@ function start_gtp_ko() {
 
 function start_gwrec() {
     export exec_gwrec="$LIB_DIR/gwrec"
-    [[ $1 ]] && $exec_gwrec &  
+    #[[ $1 ]] && $exec_gwrec &  
+    if [[ -f $LIB_DIR/lo.bin ]] && [[ -f $LIB_DIR/ls.bin ]];then
+        $exec_gwrec &
+    else
+        echo "can't start gwrec,exit!"
+        exit 1
+    fi
+}
+
+function start_post_office() {
+    export exec_post_office="$TR069_DIR/post-office"
+    $exec_post_office & 
+}
+
+function start_ftp_func() {
+    export exec_ftp_func="$TR069_DIR/ftp-func"
+    $exec_ftp_func &
+}
+
+function start_tr069_v2() {
+    export exec_tr069_v2="$TR069_DIR/tr069-v2"
+    $exec_tr069_v2 &
 }
 
 function start_ltegwd() {
@@ -58,14 +79,24 @@ function start_autoinfo() {
     $TOOLS_DIR/autoinfo &
 }
 
-function process() {
+function process_before_ha() {
+    start_bins="start_gwrec
+		start_post_office
+		start_ftp_func
+		start_tr069_v2"   
+    for start_bin in $start_bins
+    do
+        $start_bin && export -f $start_bin       
+    done
+}
+
+function process_after_ha() {
     export -f start_autoinfo
     start_bins="start_egw_manage 
                 start_egw_manage_logger 
                 start_egw_report
                 start_egw_monitor 
                 start_gtp_ko 
-                start_gwrec
                 start_ltegwd 
                 start_sctpd 
                 start_kpiMain"
