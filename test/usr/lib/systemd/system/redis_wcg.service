@@ -1,0 +1,15 @@
+[Unit]
+Description=Redis persistent key-value database
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/redis-server /etc/.eGW/redis/redis_wcg.conf --daemonize no
+ExecStop=/etc/.eGW/redis/redis_wcg-shutdown
+User=root
+Group=root
+RuntimeDirectory=root
+RuntimeDirectoryMode=0755
+
+[Install]
+WantedBy=multi-user.target
+

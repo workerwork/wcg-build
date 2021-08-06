@@ -43,12 +43,14 @@ sed -i 's/\(stopAll.sh\)/.\1/' monitor.service
 
 sed -i 's/\(egw_report.log\)/.\1/' OMC/eGW_Cfg_Info.xml
 sed -i 's/\(egw_manage.log\)/.\1/' OMC/eGW_Cfg_Info.xml
+sed -i 's/\(egw_alarm.log\)/.\1/' OMC/eGW_Cfg_Info.xml
 sed -i 's/\(egw_monitor.log\)/.\1/' OMC/eGW_Monitor_Cfg_Info.xml
 sed -i 's/\(startOm.sh\)/.\1/' OMC/om.service
 sed -i 's/\(stopOm.sh\)/.\1/' OMC/om.service
 sed -i 's@\(/etc/\)\(eGW\)@\1.\2@' redis/redis_wcg.service
 sed -i 's@\(/etc/\)\(eGW\)@\1.\2@' redis/redis_wcg-shutdown
 sed -i 's@\(/etc/\)\(eGW\)@\1.\2@' nginx/nginx_wcg.service
+sed -i 's@\(/etc/\)\(eGW\)@\1.\2@' nginx/nginx_wcg.conf
 sed -i 's/\(Config.sh\)/.\1/' keepalived/keepalived_wcg.conf
 sed -i 's@\(/etc/\)\(eGW\)@\1.\2@' keepalived/keepalived_wcg.service
 
@@ -62,6 +64,10 @@ do
 done
 
 cp -arf . $RPM_BUILD_ROOT/usr/lib/eGW
+pushd $RPM_BUILD_ROOT/usr/lib/eGW
+mv Config.sh .Config.sh
+rm -rf redis nginx keepalived
+popd
 cp -rf monitor.service $RPM_BUILD_ROOT/usr/lib/systemd/system
 cp -rf OMC/om.service $RPM_BUILD_ROOT/usr/lib/systemd/system
 cp -rf redis/redis_wcg.service $RPM_BUILD_ROOT/usr/lib/systemd/system

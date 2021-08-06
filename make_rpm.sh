@@ -102,9 +102,8 @@ function addsign() {
     #set rpmname [lindex $argv 0]
     spawn rpm --addsign $rpmname
     expect {
-        "Enter pass phrase: " {
-            send "baicells\r"
-        }  
+        "Enter pass phrase: " { send "baicells\r" }  
+        "输入密码：" { send "baicells\r" }  
     }
     expect eof;
 EOF

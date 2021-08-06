@@ -1,0 +1,119 @@
+#!/bin/bash -
+#########################################################################################
+# autoinfo.sh
+# version:3.0
+# update:20210805
+#########################################################################################
+LOGPATH="/var/log/eGW"
+DIR="$LOGPATH/autoinfo"
+[[ ! -d $DIR ]] && mkdir -p $DIR
+
+function top_info() {
+    top -n 3 -b > $DIR/top.log
+}
+
+function disk_info() {
+    df -h > $DIR/disk.log
+}
+
+function ipcs_info() {
+    ipcs -l > $DIR/ipcs.log
+    ipcs -a >> $DIR/ipcs.log
+    ipcs -q >> $DIR/ipcs.log
+}
+
+function pstack_info() {
+    pstack $(pidof ltegwd) 2>/dev/null > $DIR/pstack.log
+    echo  "==============================" >> $DIR/pstack.log
+    pstack $(pidof egw_report) 2>/dev/null >> $DIR/pstack.log
+    echo  "==============================" >> $DIR/pstack.log
+    pstack $(pidof egw_manage) 2>/dev/null >> $DIR/pstack.log
+    echo  "==============================" >> $DIR/pstack.log
+    pstack $(pidof egw_manage_logger) 2>/dev/null >> $DIR/pstack.log
+    echo  "==============================" >> $DIR/pstack.log
+    pstack $(pidof egw_monitor) 2>/dev/null >> $DIR/pstack.log
+}
+
+function service_info() {
+    systemctl status monitor.service > $DIR/service.log
+    systemctl status redis_wcg.service >> $DIR/service.log
+    systemctl status nginx_wcg.service >> $DIR/service.log
+}
+
+function socket_info() {
+    netstat -anp | grep ltegwd > $DIR/socket.log
+    netstat -anp | grep egw_report >> $DIR/socket.log
+    netstat -anp | grep egw_manage >> $DIR/socket.log
+}
+
+function process_info() {
+    dir=$1
+    timer=${2-"180"}
+    time_now=$(date +%s)
+    for f in $(ls $dir)
+    do
+        time_stat=$(stat -c %Y $dir/$f)
+        time_sub=$[$time_now - $time_stat]
+        if [[ $time_sub -lt $timer ]];then
+            cp -rf $dir/$f $DIR
+        fi
+    done
+}
+
+
+function coredump_info() {
+    process_info $LOGPATH/coredump 600
+}
+
+function ltegwd_info() {
+    process_info $LOGPATH/ltegwd
+}
+
+function egw_report_info() {
+    process_info $LOGPATH/omcapi/report
+}
+
+function egw_manage_info() {
+    process_info $LOGPATH/omcapi/manage
+}
+
+function egw_monitor_info() {
+    process_info $LOGPATH/omcapi/monitor
+}
+
+function sctpd_info() {
+    process_info $LOGPATH/sctpd
+}
+
+function syslog_info() {
+    tail -5000 /var/log/messages > $DIR/syslog.log
+}
+
+function clear_file() {
+    file_num=${1:-"5"}
+    ls -lt $DIR/*.tar.gz 2>/dev/null | awk -v file_num=$file_num '{if(NR>file_num-1){print $9}}' | xargs rm -rf
+}
+
+function auto_info() {
+    top_info &
+    disk_info &
+    ipcs_info &
+    pstack_info &
+    service_info &
+    socket_info &
+    coredump_info &
+    ltegwd_info &
+    sctpd_info &
+    egw_report_info &
+    egw_manage_info &
+    egw_monitor_info &
+    syslog_info &
+}
+clear_file
+auto_info
+wait
+date_now=$(date +%Y%m%d%H%M%S)
+cd $DIR
+tar -zcvf ${date_now}.tar.gz *.log* core-* 2>/dev/null
+rm -rf $DIR/*.log*
+rm -rf $DIR/core-*

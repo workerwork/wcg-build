@@ -1,0 +1,96 @@
+#!/bin/bash -
+#########################################################################################
+# set_iptables.sh
+# version:6.0
+# update:20180905
+#########################################################################################
+
+function clear_iptables() {
+    iptables -F          
+    iptables -F -t nat  
+    iptables -X         
+    iptables -X -t nat	
+    iptables -Z         
+    iptables -Z -t nat  
+}
+
+
+function default_policy_iptables() {
+    iptables -P INPUT ACCEPT      
+    iptables -P OUTPUT ACCEPT     
+    iptables -P FORWARD ACCEPT    
+}
+
+function add_firewalld_iptables() {
+    local interface_name=$1
+    iptables -A INPUT -p tcp --dport 50683 -i ${interface_name} -j ACCEPT
+    iptables -A INPUT -p tcp --dport 50685 -i ${interface_name} -j ACCEPT
+    iptables -A INPUT -p udp --dport 500 -i ${interface_name} -j ACCEPT
+    iptables -A INPUT -p udp --dport 4500 -i ${interface_name} -j ACCEPT
+    iptables -A INPUT -p sctp --dport 36412 -i ${interface_name} -j ACCEPT
+    iptables -A INPUT -p udp --dport 2152 -i ${interface_name} -j ACCEPT
+    iptables -A INPUT -m state --state RELATED,ESTABLISHED -i ${interface_name} -j ACCEPT
+    iptables -A INPUT -p icmp -i ${interface_name} -j ACCEPT
+    iptables -A INPUT -p esp -i ${interface_name} -j ACCEPT
+    [[ $interface_name ]] && iptables -A INPUT -p all -i ${interface_name} -j DROP
+}
+
+function del_firewalld_iptables() {
+    local interface_name=$1
+    iptables -D INPUT -p tcp --dport 50683 -i ${interface_name} -j ACCEPT
+    iptables -D INPUT -p tcp --dport 50685 -i ${interface_name} -j ACCEPT
+    iptables -D INPUT -p udp --dport 500 -i ${interface_name} -j ACCEPT
+    iptables -D INPUT -p udp --dport 4500 -i ${interface_name} -j ACCEPT
+    iptables -D INPUT -p sctp --dport 36412 -i ${interface_name} -j ACCEPT
+    iptables -D INPUT -p udp --dport 2152 -i ${interface_name} -j ACCEPT
+    iptables -D INPUT -m state --state RELATED,ESTABLISHED -i ${interface_name} -j ACCEPT
+    iptables -D INPUT -p icmp -i ${interface_name} -j ACCEPT
+    iptables -D INPUT -p esp -i ${interface_name} -j ACCEPT
+    [[ $interface_name ]] && iptables -D INPUT -p all -i ${interface_name} -j DROP
+}
+
+function init_firewalld_iptables() {
+    clear_iptables
+    default_policy_iptables
+}
+
+ARGS=`getopt -o hvia:d: --long help,version,init,add:,delete: -- "$@"`
+if [ $? != 0 ] ; then echo "Terminating..." >&2 ; exit 1 ; fi
+eval set -- "$ARGS"
+while true;do
+    case "$1" in
+        -i|--init)
+            init_firewalld_iptables
+            shift 
+            ;;
+        -a|--add)
+            add_firewalld_iptables "$2"
+            shift 2
+            ;;
+        -d|--delete)
+            del_firewalld_iptables "$2"
+            shift 2
+            ;;
+        -v|--version)
+            echo "version: 1.0"
+            shift 
+            ;;
+        -h|--help)
+            echo "usage:"
+            echo "  -h  --help                  list help information"
+            echo "  -v  --version               list the released version"
+            echo "  -i  --init                  initialze iptables"
+            echo "  -a  --add [interface]       add iptables to the interface"
+            echo "  -d  --delete [interface]    del iptables to the interface"
+            shift
+            ;;
+        --)
+            shift
+            break
+            ;;
+        *)
+            echo "unknown:{$1}"
+            exit 1
+            ;;
+    esac
+done
