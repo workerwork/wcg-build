@@ -22,6 +22,9 @@ function egw_ps() {
     export -f ps_egw_monitor
     export -f ps_egw_manage_logger
     export -f ps_kpiMain
+    export -f ps_post_office
+    export -f ps_ftp_func
+    export -f ps_tr069_v2
     export -f watchdog_log
     export -f ipsec_test
 
@@ -34,6 +37,9 @@ function egw_ps() {
     ps_ef ps_egw_monitor watchdog_monitor_timer
     ps_ef ps_egw_manage_logger watchdog_manage_logger_timer
     ps_ef ps_kpiMain watchdog_kpiMain_timer
+    ps_ef ps_post_office watchdog_post_office_timer
+    ps_ef ps_ftp_func watchdog_ftp_func_timer
+    ps_ef ps_tr069_v2 watchdog_tr069_v2_timer
     ps_ef ipsec_test watchdog_ipsec_test_timer
 }
 

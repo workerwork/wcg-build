@@ -170,6 +170,57 @@ function ps_kpiMain() {
     fi
 }
 
+function ps_post_office() {
+    local count=$(ps -ef |grep ${exec_post_office}$|grep -v 'grep'|wc -l)
+    if [[ $count == 0 ]];then
+        start_autoinfo
+        watchdog_log "post-office restart"
+        $redisShort hset eGW-status eGW-ps-state-post_office 1
+        $redisShort lpush eGW-alarm-ps post_office:1
+        start_post_office
+    else
+        post_office_state=$($redisShort hget eGW-status eGW-ps-state-post_office)
+        if [[ $post_office_state == 1 ]];then
+            $redisShort lpush eGW-alarm-ps post_office:0
+            $redisShort hset eGW-status eGW-ps-state-post_office 0
+        fi
+    fi
+}
+
+function ps_ftp_func() {
+    local count=$(ps -ef |grep ${exec_ftp_func}$|grep -v 'grep'|wc -l)
+    if [[ $count == 0 ]];then
+        start_autoinfo
+        watchdog_log "ftp-func restart"
+        $redisShort hset eGW-status eGW-ps-state-ftp_func 1
+        $redisShort lpush eGW-alarm-ps ftp_func:1
+        start_ftp_func
+    else
+        ftp_func_state=$($redisShort hget eGW-status eGW-ps-state-ftp_func)
+        if [[ $ftp_func_state == 1 ]];then
+            $redisShort lpush eGW-alarm-ps ftp_func:0
+            $redisShort hset eGW-status eGW-ps-state-ftp_func 0
+        fi
+    fi
+}
+
+function ps_tr069_v2() {
+    local count=$(ps -ef |grep ${exec_tr069_v2}$|grep -v 'grep'|wc -l)
+    if [[ $count == 0 ]];then
+        start_autoinfo
+        watchdog_log "tr069-v2 restart"
+        $redisShort hset eGW-status eGW-ps-state-tr069_v2 1
+        $redisShort lpush eGW-alarm-ps tr069_v2:1
+        start_post_office
+    else
+        tr069_v2_state=$($redisShort hget eGW-status eGW-ps-state-tr069_v2)
+        if [[ $tr069_v2_state == 1 ]];then
+            $redisShort lpush eGW-alarm-ps tr069_v2:0
+            $redisShort hset eGW-status eGW-ps-state-tr069_v2 0
+        fi
+    fi
+}
+
 #ipsec up自动替换，ipsec down 提示手工替换，egwTool自身实现限制
 function ipsec_test() {
     local ipsec_uplink_default=$($redisShort hget eGW-para-default config_ipsec_uplink_switch)
