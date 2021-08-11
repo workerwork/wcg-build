@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service_config>
+	<config_node>
+		<tr-path>InternetGatewayDevice.eGW.Service.GwCongfig.PlmnList.</tr-path>
+		<config-type>1</config-type>
+		<config-objectFlag>1</config-objectFlag>
+		<config-specific>8</config-specific>
+	</config_node>
+	<config_node>
+		<tr-path>InternetGatewayDevice.eGW.Service.MacroEnbConfig.</tr-path>
+		<config-type>2</config-type>
+		<config-objectFlag>1</config-objectFlag>
+		<config-specific>625</config-specific>
+	</config_node>
+	<config_node>
+		<tr-path>InternetGatewayDevice.eGW.Service.MacroEnbConfig.</tr-path>
+		<config-type>3</config-type>
+		<config-objectFlag>2</config-objectFlag>
+		<config-specific>5000</config-specific>
+	</config_node>
+	<config_node>
+		<tr-path>InternetGatewayDevice.eGW.Service.GwCongfig.SelfS1MmeConfig.</tr-path>
+		<config-type>4</config-type>
+		<config-objectFlag>1</config-objectFlag>
+		<config-specific>4</config-specific>
+	</config_node>
+	<config_node>
+		<tr-path>InternetGatewayDevice.eGW.Service.GwCongfig.SelfGtpuConfig.Uplink.</tr-path>
+		<config-type>5</config-type>
+		<config-objectFlag>1</config-objectFlag>
+		<config-specific>8</config-specific>
+	</config_node>
+	<config_node>
+		<tr-path>InternetGatewayDevice.eGW.Service.GwCongfig.SelfGtpuConfig.Downlink.</tr-path>
+		<config-type>6</config-type>
+		<config-objectFlag>1</config-objectFlag>
+		<config-specific>8</config-specific>
+	</config_node>
+	<config_node>
+		<tr-path>InternetGatewayDevice.eGW.ManagementServer.Performance.</tr-path>
+		<config-type>6</config-type>
+		<config-objectFlag>0</config-objectFlag>
+	</config_node>
+</service_config>

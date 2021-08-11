@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<alarm_config>
+	<alarm_instance>
+		<alarm_id>31002</alarm_id>
+		<alarmeventType>Equipment Alarm</alarmeventType>
+		<alarmManagedObjectInstance>SysMonitor.FaultMgmt.ExpeditedEvent</alarmManagedObjectInstance>
+		<alarmSeverity>Major</alarmSeverity>
+    <alarmCause>The equipment CPU usage is too high</alarmCause>  
+    <alarmSpecificProblem>The equipment CPU usage is too high</alarmSpecificProblem> 
+  </alarm_instance>  
+  <alarm_instance> 
+    <alarm_id>31003</alarm_id>  
+    <alarmeventType>Equipment Alarm</alarmeventType>  
+    <alarmManagedObjectInstance>SysMonitor.FaultMgmt.ExpeditedEvent</alarmManagedObjectInstance>  
+    <alarmSeverity>Major</alarmSeverity>  
+    <alarmCause>The equipment memory usage is too high</alarmCause>  
+    <alarmSpecificProblem>The equipment memory usage is too high</alarmSpecificProblem> 
+  </alarm_instance>  
+  <alarm_instance> 
+    <alarm_id>31004</alarm_id>  
+    <alarmeventType>Equipment Alarm</alarmeventType>  
+    <alarmManagedObjectInstance>SysMonitor.FaultMgmt.ExpeditedEvent</alarmManagedObjectInstance>  
+    <alarmSeverity>Major</alarmSeverity>  
+    <alarmCause>The equipment hard disk usage is too high</alarmCause>  
+    <alarmSpecificProblem>The equipment hard disk usage is too high</alarmSpecificProblem> 
+  </alarm_instance>  
+  <alarm_instance> 
+    <alarm_id>31005</alarm_id>  
+    <alarmeventType>Equipment Alarm</alarmeventType>  
+    <alarmManagedObjectInstance>SysMonitor.FaultMgmt.ExpeditedEvent</alarmManagedObjectInstance>  
+    <alarmSeverity>Warning</alarmSeverity>  
+    <alarmCause>Number of log files exceeds the specification</alarmCause>  
+    <alarmSpecificProblem>Number of log files exceeds the specification</alarmSpecificProblem> 
+  </alarm_instance>  
+  <alarm_instance> 
+    <alarm_id>31006</alarm_id>  
+    <alarmeventType>Equipment Alarm</alarmeventType>  
+    <alarmManagedObjectInstance>SysMonitor.FaultMgmt.ExpeditedEvent</alarmManagedObjectInstance>  
+    <alarmSeverity>Warning</alarmSeverity>  
+    <alarmCause>The process is abnormal</alarmCause>  
+    <alarmSpecificProblem>The process is abnormal</alarmSpecificProblem> 
+  </alarm_instance>  
+  <alarm_instance> 
+    <alarm_id>32002</alarm_id>  
+    <alarmeventType>Equipment Alarm</alarmeventType>  
+    <alarmManagedObjectInstance>SysMonitor.FaultMgmt.ExpeditedEvent</alarmManagedObjectInstance>  
+    <alarmSeverity>Major</alarmSeverity>  
+    <alarmCause>The network card gets down</alarmCause>  
+    <alarmSpecificProblem>The network card gets down</alarmSpecificProblem> 
+  </alarm_instance>  
+  <alarm_instance> 
+    <alarm_id>32004</alarm_id>  
+    <alarmeventType>Communication Alarm</alarmeventType>  
+    <alarmManagedObjectInstance>SysMonitor.FaultMgmt.ExpeditedEvent</alarmManagedObjectInstance>  
+    <alarmSeverity>Major</alarmSeverity>  
+    <alarmCause>SCTP Association Failure</alarmCause>  
+    <alarmSpecificProblem>SCTP Association Failure</alarmSpecificProblem> 
+  </alarm_instance>  
+  <alarm_instance> 
+    <alarm_id>33001</alarm_id>  
+    <alarmeventType>Environmental Alarm</alarmeventType>  
+    <alarmManagedObjectInstance>SysMonitor.FaultMgmt.ExpeditedEvent</alarmManagedObjectInstance>  
+    <alarmSeverity>Major</alarmSeverity>  
+    <alarmCause>The online eNB number is more than threashold</alarmCause>  
+    <alarmSpecificProblem>The online eNB number is more than threashold</alarmSpecificProblem> 
+  </alarm_instance>  
+  <alarm_instance> 
+    <alarm_id>33002</alarm_id>  
+    <alarmeventType>Environmental Alarm</alarmeventType>  
+    <alarmManagedObjectInstance>SysMonitor.FaultMgmt.ExpeditedEvent</alarmManagedObjectInstance>  
+    <alarmSeverity>Warning</alarmSeverity>  
+    <alarmCause>The number of online UE session is more than threashold</alarmCause>  
+    <alarmSpecificProblem>The number of online UE session is more than threashold</alarmSpecificProblem> 
+  </alarm_instance>  
+  <alarm_instance> 
+    <alarm_id>35001</alarm_id>  
+    <alarmeventType>Environmental Alarm</alarmeventType>  
+    <alarmManagedObjectInstance>SysMonitor.FaultMgmt.ExpeditedEvent</alarmManagedObjectInstance>  
+    <alarmSeverity>Warning</alarmSeverity>  
+    <alarmCause>The license will be expired</alarmCause>  
+    <alarmSpecificProblem>The license will be expired</alarmSpecificProblem> 
+  </alarm_instance>  
+  <alarm_instance> 
+    <alarm_id>35002</alarm_id>  
+    <alarmeventType>Environmental Alarm</alarmeventType>  
+    <alarmManagedObjectInstance>SysMonitor.FaultMgmt.ExpeditedEvent</alarmManagedObjectInstance>  
+    <alarmSeverity>Warning</alarmSeverity>  
+    <alarmCause>licence has failed due to the expiration period</alarmCause>  
+    <alarmSpecificProblem>licence has failed due to the expiration period</alarmSpecificProblem> 
+  </alarm_instance> 
+</alarm_config>

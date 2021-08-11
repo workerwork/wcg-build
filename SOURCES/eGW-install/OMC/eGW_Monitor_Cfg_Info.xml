@@ -24,6 +24,9 @@
 		<proc_name>sctpd</proc_name>
 		<proc_name>gwrec</proc_name>
 		<proc_name>kpiMain</proc_name>
+		<proc_name>ftp-func</proc_name>
+		<proc_name>post-office</proc_name>
+		<proc_name>tr069-v2</proc_name>
 	</monitor_process_config>
 	<sys_status_config>
 		<cpu_usage_status_config>

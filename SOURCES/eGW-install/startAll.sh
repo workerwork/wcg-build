@@ -24,7 +24,7 @@ export GOTTY_CONF="$CFG_DIR/gotty.conf"
 export GOTTY="$LIB_DIR/gotty"
 export VTYSH="$LIB_DIR/vtysh"
 export TR069_DIR="$LIB_DIR/TR069"
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${TR069_DIR}/lib
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$TR069_DIR/lib"
 #-------------------------------------------------------
 
 #init the redis nginx ipsec
