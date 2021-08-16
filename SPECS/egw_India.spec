@@ -341,14 +341,15 @@ function journal_set() {
 
 function post_WCG_ins() {
     echo "**Run the shell after WCG install..."
-    systemctl stop monitor
+    #规避tr069升级双版本问题
+    #systemctl stop monitor
     WCG_reg
     system_env_set
     sysctl_set
     coredump_set
     history_set
     journal_set
-    #规避升级双版本问题
+    #规避OM升级双版本问题
     #systemctl restart monitor.service
     #systemctl restart om.service
 }
