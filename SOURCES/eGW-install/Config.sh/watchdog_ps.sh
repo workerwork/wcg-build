@@ -211,7 +211,7 @@ function ps_tr069_v2() {
         watchdog_log "tr069-v2 restart"
         $redisShort hset eGW-status eGW-ps-state-tr069_v2 1
         $redisShort lpush eGW-alarm-ps tr069_v2:1
-        start_post_office
+        start_tr069_v2
     else
         tr069_v2_state=$($redisShort hget eGW-status eGW-ps-state-tr069_v2)
         if [[ $tr069_v2_state == 1 ]];then
