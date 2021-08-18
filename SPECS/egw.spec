@@ -308,6 +308,8 @@ function journal_set() {
 
 function post_WCG_ins() {
     echo "**Run the shell after WCG install..."
+    #规避多keepalived实例问题
+    systemctl mask keepalived.service
     #规避tr069升级双版本问题
     #systemctl stop monitor
     WCG_reg
