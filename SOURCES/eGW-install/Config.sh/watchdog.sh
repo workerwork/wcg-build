@@ -8,7 +8,7 @@ function ps_ef() {
     if [[ "x$3" == "x" ]];then
         [[ -z $(ps -ef | grep "${1} ${2}$") ]] && $watch $1 $2 &
     else
-        [[ -z $(ps -ef | grep "${1} ${2} ${3}$") ]] && $watch $1 $2 $3 &	
+        [[ -z $(ps -ef | grep "${1} ${2} ${3} ${4} ${5}$") ]] && $watch $1 $2 $3 $4 $5 &	
     fi
 }
 
@@ -54,22 +54,32 @@ function egw_log() {
     export -f manage_log
     export -f report_log
     export -f monitor_log
+    export -f alarm_log
     export -f vtysh_log
+    export -f vtyhistory_log
     export -f core_log
     export -f crash_log
+    export -f tr069_v2_log
+    export -f ftp_func_log
+    export -f post_office_log
     
     local watch="$CUR_DIR/watchdog_log.sh"
-    ps_ef ps_log watchdog_ps_log_timer watchdog_ps_log_number
-    ps_ef keepalived_log watchdog_keepalived_log_timer watchdog_keepalived_log_number
-    ps_ef ltegwd_log watchdog_ltegwd_log_timer watchdog_ltegwd_log_number
-    ps_ef sctpd_log watchdog_sctpd_log_timer watchdog_sctpd_log_number
-    ps_ef manage_log watchdog_manage_log_timer watchdog_manage_log_number
-    ps_ef report_log watchdog_report_log_timer watchdog_report_log_number
-    ps_ef monitor_log watchdog_monitor_log_timer watchdog_monitor_log_number
-    ps_ef vtysh_log watchdog_vtysh_log_timer watchdog_vtysh_log_number
-    ps_ef history_log watchdog_history_log_timer watchdog_history_log_number
-    ps_ef core_log watchdog_core_log_timer watchdog_core_log_number
-    ps_ef crash_log watchdog_crash_log_timer watchdog_crash_log_number
+    ps_ef ps_log watchdog_ps_log_timer watchdog_ps_log_number watchdog_ps_log_vol watchdog_ps_log_ctime
+    ps_ef keepalived_log watchdog_keepalived_log_timer watchdog_keepalived_log_number watchdog_keepalived_log_vol watchdog_keepalived_log_ctime
+    ps_ef ltegwd_log watchdog_ltegwd_log_timer watchdog_ltegwd_log_number watchdog_ltegwd_log_vol watchdog_ltegwd_log_ctime
+    ps_ef sctpd_log watchdog_sctpd_log_timer watchdog_sctpd_log_number watchdog_sctpd_log_vol watchdog_sctpd_log_ctime
+    ps_ef manage_log watchdog_manage_log_timer watchdog_manage_log_number watchdog_manage_log_vol watchdog_manage_log_ctime
+    ps_ef report_log watchdog_report_log_timer watchdog_report_log_number watchdog_report_log_vol watchdog_report_log_ctime
+    ps_ef monitor_log watchdog_monitor_log_timer watchdog_monitor_log_number watchdog_monitor_log_vol watchdog_monitor_log_ctime
+    ps_ef alarm_log watchdog_alarm_log_timer watchdog_alarm_log_number watchdog_alarm_log_vol watchdog_alarm_log_ctime
+    ps_ef vtysh_log watchdog_vtysh_log_timer watchdog_vtysh_log_number watchdog_vtysh_log_vol watchdog_vtysh_log_ctime
+    ps_ef vtyhistory_log watchdog_vtyhistory_log_timer watchdog_vtyhistory_log_number watchdog_vtyhistory_log_vol watchdog_vtyhistory_log_ctime
+    ps_ef history_log watchdog_history_log_timer watchdog_history_log_number watchdog_history_log_vol watchdog_history_log_ctime
+    ps_ef tr069_v2_log watchdog_tr069_v2_log_timer watchdog_tr069_v2_log_number watchdog_tr069_v2_log_vol watchdog_tr069_v2_log_ctime
+    ps_ef ftp_func_log watchdog_ftp_func_log_timer watchdog_ftp_func_log_number watchdog_ftp_func_log_vol watchdog_ftp_func_log_ctime
+    ps_ef post_office_log watchdog_post_office_log_timer watchdog_post_office_log_number watchdog_post_office_log_vol watchdog_post_office_log_ctime
+    ps_ef core_log watchdog_core_log_timer watchdog_core_log_number watchdog_core_log_vol watchdog_core_log_ctime
+    ps_ef crash_log watchdog_crash_log_timer watchdog_crash_log_number watchdog_crash_log_vol watchdog_crash_log_ctime
 }
 
 function watchdog_all() {

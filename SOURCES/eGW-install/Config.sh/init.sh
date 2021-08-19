@@ -7,7 +7,8 @@
 
 function init_dir() {
     for dir in history keepalived redis nginx ltegwd sctpd tcpdump vtysh vtyhistory watchdog \
-	omcapi/manage omcapi/monitor omcapi/report omcapi/alarm
+	omcapi/manage omcapi/monitor omcapi/report omcapi/alarm \
+        oam_trace/tr069 oam_trace/ftp-func oam_trace/post-office
     do
         [[ ! -d $LOG_DIR/$dir ]] && mkdir -p $LOG_DIR/$dir
     done

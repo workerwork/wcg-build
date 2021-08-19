@@ -50,6 +50,7 @@ cp -rf OMC/eGW_Cfg_Info.xml $RPM_BUILD_ROOT/etc/eGW
 cp -rf OMC/eGW_Monitor_Cfg_Info.xml $RPM_BUILD_ROOT/etc/eGW
 cp -rf TR069/eGW_Alarm_Info.xml $RPM_BUILD_ROOT/etc/eGW
 cp -rf TR069/eGW_TrPath_Info.xml $RPM_BUILD_ROOT/etc/eGW
+cp -rf TR069/eGW_OMCCfg_Info.xml $RPM_BUILD_ROOT/etc/eGW
 cp -rf redis/redis_wcg.conf $RPM_BUILD_ROOT/etc/eGW/redis
 cp -rf redis/redis_wcg-shutdown $RPM_BUILD_ROOT/etc/eGW/redis
 cp -rf nginx/nginx_wcg.conf $RPM_BUILD_ROOT/etc/eGW/nginx
@@ -85,6 +86,7 @@ ls | grep -v git.init | xargs rm -rf
 %exclude /usr/lib/eGW/OMC/eGW_Monitor_Cfg_Info.xml
 %exclude /usr/lib/eGW/TR069/eGW_Alarm_Info.xml
 %exclude /usr/lib/eGW/TR069/eGW_TrPath_Info.xml
+%exclude /usr/lib/eGW/TR069/eGW_OMCCfg_Info.xml
 %exclude /usr/lib/eGW/redis
 %exclude /usr/lib/eGW/nginx
 %exclude /usr/lib/eGW/keepalived
