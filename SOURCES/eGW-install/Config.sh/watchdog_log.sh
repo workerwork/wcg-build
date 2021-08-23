@@ -61,7 +61,7 @@ function del_log() {
             $redisShort lpush eGW-alarm-log $log_name:0
         fi
     fi
-    for log in $(ls "-lt"$options $log_path/$log_pattern 2>/dev/null)
+    for log in $(ls "-lt"$options $log_path/$log_pattern 2>/dev/null | awk '{print $9}')
     do
         local time_now=$(date +%s)
         local time_stat=$(stat -c %Y $log)
@@ -117,18 +117,18 @@ function keepalived_log() {
 
 function ltegwd_log() {
     local path="$LOG_DIR/ltegwd"
-    local pattern="egw.log_*.log"
+    local pattern="egw.log_*"
     local num="0"
     compress_log $path $pattern $num
-    del_log $path/${pattern}.tgz $1 $2 $3 "ltegwd_log"
+    del_log $path ${pattern}.tgz $1 $2 $3 "ltegwd_log"
 }
 
 function sctpd_log() {
     local path="$LOG_DIR/sctpd"
-    local pattern="sctpd.log_*.log"
+    local pattern="sctpd.log_*"
     local num="0"
     compress_log $path $pattern $num
-    del_log $path/${pattern}.tgz $1 $2 $3 "sctpd_log"
+    del_log $path ${pattern}.tgz $1 $2 $3 "sctpd_log"
 }
 
 function manage_log() {
@@ -136,7 +136,7 @@ function manage_log() {
     local pattern="egw_manage.log_*"
     local num="0"
     compress_log $path $pattern $num
-    del_log $path/${pattern}.tgz $1 $2 $3 "manage_log"
+    del_log $path ${pattern}.tgz $1 $2 $3 "manage_log"
 }
 
 function report_log() {
@@ -144,7 +144,7 @@ function report_log() {
     local pattern="egw_report.log_*"
     local num="0"
     compress_log $path $pattern $num
-    del_log $path/${pattern}.tgz $1 $2 $3 "report_log"
+    del_log $path ${pattern}.tgz $1 $2 $3 "report_log"
 }
 
 function monitor_log() {
@@ -152,7 +152,7 @@ function monitor_log() {
     local pattern="egw_monitor.log_*"
     local num="0"
     compress_log $path $pattern $num
-    del_log $path/${pattern}.tgz $1 $2 $3 "monitor_log"
+    del_log $path ${pattern}.tgz $1 $2 $3 "monitor_log"
 }
 
 function alarm_log() {
@@ -160,7 +160,7 @@ function alarm_log() {
     local pattern="alarm.log_*"
     local num="0"
     compress_log $path $pattern $num
-    del_log $path/${pattern}.tgz $1 $2 $3 "alarm_log"
+    del_log $path ${pattern}.tgz $1 $2 $3 "alarm_log"
 }
 
 function vtysh_log() {
@@ -168,7 +168,7 @@ function vtysh_log() {
     local pattern="vtysh.log_*"
     local num="0"
     compress_log $path $pattern $num
-    del_log $path/${pattern}.tgz $1 $2 $3 "vtysh_log"
+    del_log $path ${pattern}.tgz $1 $2 $3 "vtysh_log"
 }
 
 function vtyhistory_log() {
@@ -176,7 +176,7 @@ function vtyhistory_log() {
     local pattern="vtyhistory.log_*"
     local num="0"
     compress_log $path $pattern $num
-    del_log $path/${pattern}.tgz $1 $2 $3 "vtyhistory_log"
+    del_log $path ${pattern}.tgz $1 $2 $3 "vtyhistory_log"
 }
 
 function tr069_v2_log() {
@@ -184,7 +184,7 @@ function tr069_v2_log() {
     local pattern="tr069.*.log"
     local num="1"
     compress_log $path $pattern $num
-    del_log $path/${pattern}.tgz $1 $2 $3 "tr069_v2_log"
+    del_log $path ${pattern}.tgz $1 $2 $3 "tr069_v2_log"
 }
 
 function ftp_func_log() {
@@ -192,7 +192,7 @@ function ftp_func_log() {
     local pattern="ftp-func.*.log"
     local num="1"
     compress_log $path $pattern $num
-    del_log $path/${pattern}.tgz $1 $2 $3 "ftp_func_log"
+    del_log $path ${pattern}.tgz $1 $2 $3 "ftp_func_log"
 }
 
 function post_office_log() {
@@ -200,7 +200,7 @@ function post_office_log() {
     local pattern="post-office.*.log"
     local num="1"
     compress_log $path $pattern $num
-    del_log $path/${pattern}.tgz $1 $2 $3 "post_office_log"
+    del_log $path ${pattern}.tgz $1 $2 $3 "post_office_log"
 }
 
 function core_log() {
@@ -208,7 +208,7 @@ function core_log() {
     local pattern="core-ltegwd-*"
     local num="0"
     compress_log $path $pattern $num
-    del_log $path/${pattern}.tgz $1 $2 $3 "core_log"
+    del_log $path ${pattern}.tgz $1 $2 $3 "core_log"
 }
 
 function crash_log() {
@@ -216,5 +216,5 @@ function crash_log() {
     local pattern="*"
     local num="0"
     compress_log $path $pattern $num "d"
-    del_log $path/${pattern}.tgz $1 $2 $3 "crash_log" "d"
+    del_log $path ${pattern}.tgz $1 $2 $3 "crash_log" "d"
 }
