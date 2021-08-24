@@ -46,7 +46,7 @@ function del_log() {
     # 单位 k
     local disk=$(du -s $log_path|awk '{print $1}')
     local state=$($redisShort hget eGW-status eGW-log-state-$log_name)
-    if [[ $disk -lt $log_vol ]];then
+    if [[ $disk -gt $log_vol ]];then
         if [[ "x$state" == "x" ]];then
             $redisShort hset eGW-status eGW-log-state-$log_name 1
             $redisShort lpush eGW-alarm-log $log_name:1
