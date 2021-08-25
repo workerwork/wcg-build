@@ -49,7 +49,7 @@ function del_log() {
     if [[ $disk -gt $log_vol ]];then
         if [[ "x$state" == "x" ]];then
             $redisShort hset eGW-status eGW-log-state-$log_name 1
-            $redisShort lpush eGW-alarm-log $log_name:1
+            #$redisShort lpush eGW-alarm-log $log_name:1
             log_time=$[$log_ctime-60*60*60*24]
         else
             $redisShort hset eGW-status eGW-log-state-$log_name $[$state+1]
@@ -58,7 +58,7 @@ function del_log() {
     else
         if [[ $state > 0 ]];then
             $redisShort hset eGW-status eGW-log-state-$log_name 0
-            $redisShort lpush eGW-alarm-log $log_name:0
+            #$redisShort lpush eGW-alarm-log $log_name:0
         fi
     fi
     for log in $(ls "-lt"$options $log_path/$log_pattern 2>/dev/null | awk '{print $9}')
