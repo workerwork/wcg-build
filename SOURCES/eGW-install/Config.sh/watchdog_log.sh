@@ -50,10 +50,10 @@ function del_log() {
         if [[ "x$state" == "x" ]];then
             $redisShort hset eGW-status eGW-log-state-$log_name 1
             #$redisShort lpush eGW-alarm-log $log_name:1
-            log_time=$[$log_ctime-60*60*60*24]
+            log_time=$[$log_ctime-60*60*24]
         else
             $redisShort hset eGW-status eGW-log-state-$log_name $[$state+1]
-            log_time=$[$log_ctime-60*60*60*24*($state+1)]
+            log_time=$[$log_ctime-60*60*24*($state+1)]
         fi
     else
         if [[ $state > 0 ]];then
