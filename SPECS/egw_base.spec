@@ -55,6 +55,7 @@ cp -rf redis/redis_wcg.conf $RPM_BUILD_ROOT/etc/eGW/redis
 cp -rf redis/redis_wcg-shutdown $RPM_BUILD_ROOT/etc/eGW/redis
 cp -rf nginx/nginx_wcg.conf $RPM_BUILD_ROOT/etc/eGW/nginx
 cp -rf keepalived/keepalived_wcg.conf $RPM_BUILD_ROOT/etc/eGW/keepalived
+cp -rf initWCGOS.sh $RPM_BUILD_ROOT/root
 
 %clean
 rm -rf $RPM_BUILD_ROOT
