@@ -173,9 +173,13 @@ done
 if [[ $spec_b ]];then
     makerpm_egw $spec_b && addsign
 fi
+
 if [[ $spec_i ]];then
     makerpm_egw $spec_i && addsign
 fi
-makerpm_egw SPECS/egw.spec && addsign
+
+if [[ ! $spec_b ]] && [[ ! $spec_i ]];then
+    makerpm_egw SPECS/egw.spec && addsign
+fi
 
 
