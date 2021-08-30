@@ -32,6 +32,7 @@ mkdir -p $RPM_BUILD_ROOT/etc/eGW/{redis,nginx,keepalived}
 mkdir -p $RPM_BUILD_ROOT/usr/lib/eGW
 #mkdir -p $RPM_BUILD_ROOT/var/log/eGW
 mkdir -p $RPM_BUILD_ROOT/usr/lib/systemd/system
+mkdir -p $RPM_BUILD_ROOT/root
 cp -arf . $RPM_BUILD_ROOT/usr/lib/eGW
 #cp -rf vtysh $RPM_BUILD_ROOT/usr/bin
 cp -rf monitor.service $RPM_BUILD_ROOT/usr/lib/systemd/system
