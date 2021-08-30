@@ -71,6 +71,7 @@ ls | grep -v git.init | xargs rm -rf
 /etc/eGW
 /usr/lib/eGW
 /usr/lib/systemd/system/*
+/root
 %exclude /usr/lib/eGW/monitor.service
 %exclude /usr/lib/eGW/OMC/om.service
 %exclude /usr/lib/eGW/redis/redis_wcg.service
