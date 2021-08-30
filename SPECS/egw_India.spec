@@ -10,7 +10,8 @@ Packager:   dongfeng
 #URL:            
 Source0:    %{name}-%{version}.tar.gz
 #patch0:
-#BuildRequires:  
+#BuildRequires:
+AutoReqProv: no
 Requires:   nginx,redis,hiredis,fcgi,spawn-fcgi,gsoap,curl,lksctp-tools,vconfig,xinetd,tftp,tftp-server,keepalived,net-tools,ethtool     
 
 %description
