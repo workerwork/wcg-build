@@ -1,14 +1,16 @@
 #!/bin/bash -
 
 systemctl disable NetworkManager.service
-systemctl disable firewalld.service
+#systemctl disable firewalld.service
+systemctl mask keepalived.service
 systemctl enable om.service
+systemctl enable monitor.service
 
 mkdir -p /var/opt/lc
 mkdir -p /var/opt/mo
 
 
-sed -i "s/SELINUX=enforcing/SELINUX=disabled/g"  /etc/selinux/config
+#sed -i "s/SELINUX=enforcing/SELINUX=disabled/g"  /etc/selinux/config
 
 sed -i "s/#Port.*/Port 50683/g" /etc/ssh/sshd_config
 sed -i 's/#\(PermitRootLogin \).*/\1no/g' /etc/ssh/sshd_config
