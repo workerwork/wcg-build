@@ -74,18 +74,18 @@
   </alarm_instance>  
   <alarm_instance> 
     <alarm_id>35001</alarm_id>  
-    <alarmeventType>Environmental Alarm</alarmeventType>  
+    <alarmeventType>Quality Of Service Alarm</alarmeventType>  
     <alarmManagedObjectInstance>SysMonitor.FaultMgmt.ExpeditedEvent</alarmManagedObjectInstance>  
-    <alarmSeverity>Warning</alarmSeverity>  
+    <alarmSeverity>Critical</alarmSeverity>  
     <alarmCause>The license will be expired</alarmCause>  
     <alarmSpecificProblem>The license will be expired</alarmSpecificProblem> 
-  </alarm_instance>  
+  </alarm_instance>
   <alarm_instance> 
-    <alarm_id>35002</alarm_id>  
-    <alarmeventType>Environmental Alarm</alarmeventType>  
+    <alarm_id>35003</alarm_id>  
+    <alarmeventType>Quality Of Service Alarm</alarmeventType>  
     <alarmManagedObjectInstance>SysMonitor.FaultMgmt.ExpeditedEvent</alarmManagedObjectInstance>  
-    <alarmSeverity>Warning</alarmSeverity>  
+    <alarmSeverity>Critical</alarmSeverity>  
     <alarmCause>licence has failed due to the expiration period</alarmCause>  
     <alarmSpecificProblem>licence has failed due to the expiration period</alarmSpecificProblem> 
-  </alarm_instance> 
+  </alarm_instance>
 </alarm_config>
