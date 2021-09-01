@@ -9,6 +9,8 @@ systemctl enable monitor.service
 mkdir -p /var/opt/lc
 mkdir -p /var/opt/mo
 
+ln -sf /usr/lib/eGW/vtysh /usr/bin/vtysh
+
 
 #sed -i "s/SELINUX=enforcing/SELINUX=disabled/g"  /etc/selinux/config
 
