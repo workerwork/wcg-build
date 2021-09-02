@@ -205,7 +205,7 @@ function post_office_log() {
 
 function core_log() {
     local path="$LOG_DIR/coredump"
-    local pattern="core-ltegwd-*"
+    local pattern="core-*"
     local num="0"
     compress_log $path $pattern $num
     del_log $path ${pattern}.tgz $1 $2 $3 "core_log"
