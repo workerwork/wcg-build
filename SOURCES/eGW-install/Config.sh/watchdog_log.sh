@@ -19,10 +19,10 @@ function watch_log() {
         keep_num_set=$($redisShort hget eGW-para-set $num)
         keep_num=${keep_num_set:-$keep_num_default}
         keep_vol_default=$($redisShort hget eGW-para-default $vol)
-        keep_vol__set=$($redisShort hget eGW-para-set $vol)
+        keep_vol_set=$($redisShort hget eGW-para-set $vol)
         keep_vol=${keep_vol_set:-$keep_vol_default}
         keep_ctime_default=$($redisShort hget eGW-para-default $ctime)
-        keep_ctime__set=$($redisShort hget eGW-para-set $ctime)
+        keep_ctime_set=$($redisShort hget eGW-para-set $ctime)
         keep_ctime=${keep_ctime_set:-$keep_ctime_default}
         if [[ $sleep_timer == "0"  ]];then
             sleep 60
