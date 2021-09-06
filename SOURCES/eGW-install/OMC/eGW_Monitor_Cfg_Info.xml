@@ -62,7 +62,31 @@
 			<log_status>
 				<log_size_max_limit>500</log_size_max_limit>
 				<log_path>/var/log/eGW/sctpd</log_path>
-			</log_status>			
+			</log_status>	
+			<log_status>
+				<log_size_max_limit>500</log_size_max_limit>
+				<log_path>/var/log/eGW/history</log_path>
+			</log_status>
+			<log_status>
+				<log_size_max_limit>500</log_size_max_limit>
+				<log_path>/var/log/eGW/omcapi/alarm</log_path>
+			</log_status>
+			<log_status>
+				<log_size_max_limit>100</log_size_max_limit>
+				<log_path>/var/log/eGW/vtysh</log_path>
+			</log_status>
+			<log_status>
+				<log_size_max_limit>500</log_size_max_limit>
+				<log_path>/var/log/eGW/oam_trace/tr069</log_path>
+			</log_status>
+			<log_status>
+				<log_size_max_limit>100</log_size_max_limit>
+				<log_path>/var/log/eGW/oam_trace/ftp-func</log_path>
+			</log_status>
+			<log_status>
+				<log_size_max_limit>100</log_size_max_limit>
+				<log_path>/var/log/eGW/oam_trace/post-office</log_path>
+			</log_status>
 		</log_status_config>
 		<nic_status_config>
 			<signal_nic_name>ens2f0</signal_nic_name>
