@@ -168,7 +168,7 @@ function parse_ipxs() {
 #[[ $1 ]] && [[ $2 ]] && parse_ipxs $1 $2
 
 ARGS=`getopt -o hvi:p:ls: --long help,version,ipsecip:,parse:,list,sourceip: -- "$@"`
-if [ $? != 0 ] ; then /root/eGW/Config.sh/ipsec.sh -h ; exit 1 ; fi
+if [ $? != 0 ] ; then /usr/lib/eGW/Config.sh/ipsec.sh -h ; exit 1 ; fi
 eval set -- "$ARGS"
 while true
 do
