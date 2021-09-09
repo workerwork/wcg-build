@@ -23,11 +23,11 @@
 		</lmt_log_config>
 	</common>
 	<report_api>
-		<alarm_api>http://192.168.14.25:8083/baicellsOMC/egw/egwOmcAlarm</alarm_api>
+		<alarm_api>http://127.0.0.1:8083/baicellsOMC/egw/egwOmcAlarm</alarm_api>
 	</report_api>
 	<kpi_report_api>http://127.0.0.1:8082/smallcell/FileUploadService?fileType=EGW&amp;filename=</kpi_report_api>
-	<cell_status_report_api>http://192.168.14.25:8083/baicellsOMC/egw/reportEnbInfo</cell_status_report_api>
-	<sys_status_report_api>http://192.168.14.25:8083/baicellsOMC/egw/notification/changeStatus</sys_status_report_api>
+	<cell_status_report_api>http://127.0.0.1:8083/baicellsOMC/egw/reportEnbInfo</cell_status_report_api>
+	<sys_status_report_api>http://127.0.0.1:8083/baicellsOMC/egw/notification/changeStatus</sys_status_report_api>
 	<ue_status_report_api>http://127.0.0.1:8080/smallbss/inter/clockRecord</ue_status_report_api>
 	<syncStoreChannelName>egwConfigChangeChannel</syncStoreChannelName>
 	<egw_ip>127.0.0.1</egw_ip>
