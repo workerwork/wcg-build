@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <omc_config>
         <local_ip_port>
-                <ip>192.169.10.224</ip>
+                <ip>127.0.0.1</ip>
                 <port1>50992</port1>
                 <port2>50993</port2>
         </local_ip_port>
-        <omc_url>http://192.168.10.223:8080/smallcell/AcsService</omc_url>
+        <omc_url>http://127.0.0.1:8080/smallcell/AcsService</omc_url>
 </omc_config>
