@@ -179,6 +179,14 @@ function vtyhistory_log() {
     del_log $path ${pattern}.tgz $1 $2 $3 "vtyhistory_log"
 }
 
+function enbinfo_log() {
+    local path="$LOG_DIR/Record"
+    local pattern="enbInfo.log_*"
+    local num="0"
+    compress_log $path $pattern $num
+    del_log $path ${pattern}.tgz $1 $2 $3 "enbinfo_log"
+}
+
 function tr069_v2_log() {
     local path="$LOG_DIR/oam_trace/tr069"
     local pattern="tr069.*.log"

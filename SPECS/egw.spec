@@ -45,6 +45,7 @@ cp -rf ha.conf $RPM_BUILD_ROOT/etc/eGW
 cp -rf ltegwd.xml $RPM_BUILD_ROOT/etc/eGW
 cp -rf networkcfg.conf $RPM_BUILD_ROOT/etc/eGW
 cp -rf vtyshLogCfg.conf $RPM_BUILD_ROOT/etc/eGW
+cp -rf enbLogCfg.conf $RPM_BUILD_ROOT/etc/eGW
 cp -rf OMC/kpimain.conf $RPM_BUILD_ROOT/etc/eGW
 cp -rf OMC/eGW_Cfg_Info.xml $RPM_BUILD_ROOT/etc/eGW
 cp -rf OMC/eGW_Monitor_Cfg_Info.xml $RPM_BUILD_ROOT/etc/eGW
@@ -82,6 +83,7 @@ ls | grep -v git.init | xargs rm -rf
 %exclude /usr/lib/eGW/ltegwd.xml
 %exclude /usr/lib/eGW/networkcfg.conf
 %exclude /usr/lib/eGW/vtyshLogCfg.conf
+%exclude /usr/lib/eGW/enbLogCfg.conf
 %exclude /usr/lib/eGW/OMC/kpimain.conf
 %exclude /usr/lib/eGW/OMC/eGW_Cfg_Info.xml
 %exclude /usr/lib/eGW/OMC/eGW_Monitor_Cfg_Info.xml

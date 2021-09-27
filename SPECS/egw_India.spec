@@ -39,6 +39,7 @@ sed -i 's/\(Config.sh\)/.\1/' startAll.sh
 sed -i '/#start watchdog/i #start crypt log \n$CUR_DIR/watchdog_crypt.sh &\n' startAll.sh
 sed -i 's/\(vtysh.log\)/.\1/' vtyshLogCfg.conf
 sed -i 's/\(vtyhistory.log\)/.\1/' vtyshLogCfg.conf
+sed -i 's/\(enbInfo.log\)/.\1/' enbLogCfg.conf
 sed -i 's/\(startAll.sh\)/.\1/' monitor.service
 sed -i 's/\(stopAll.sh\)/.\1/' monitor.service
 
@@ -80,6 +81,7 @@ cp -rf ha.conf $RPM_BUILD_ROOT/etc/.eGW
 cp -rf ltegwd.xml $RPM_BUILD_ROOT/etc/.eGW
 cp -rf networkcfg.conf $RPM_BUILD_ROOT/etc/.eGW
 cp -rf vtyshLogCfg.conf $RPM_BUILD_ROOT/etc/.eGW
+cp -rf enbLogCfg.conf $RPM_BUILD_ROOT/etc/.eGW
 cp -rf OMC/kpimain.conf $RPM_BUILD_ROOT/etc/.eGW
 cp -rf OMC/eGW_Cfg_Info.xml $RPM_BUILD_ROOT/etc/.eGW
 cp -rf OMC/eGW_Monitor_Cfg_Info.xml $RPM_BUILD_ROOT/etc/.eGW
@@ -118,6 +120,7 @@ ls | grep -v git.init | xargs rm -rf
 %exclude /usr/lib/eGW/ltegwd.xml
 %exclude /usr/lib/eGW/networkcfg.conf
 %exclude /usr/lib/eGW/vtyshLogCfg.conf
+%exclude /usr/lib/eGW/enbLogCfg.conf
 %exclude /usr/lib/eGW/OMC/kpimain.conf
 %exclude /usr/lib/eGW/OMC/eGW_Cfg_Info.xml
 %exclude /usr/lib/eGW/OMC/eGW_Monitor_Cfg_Info.xml

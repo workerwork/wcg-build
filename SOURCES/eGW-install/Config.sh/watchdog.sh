@@ -58,6 +58,7 @@ function egw_log() {
     export -f alarm_log
     export -f vtysh_log
     export -f vtyhistory_log
+    export -f enbinfo_log
     export -f core_log
     export -f crash_log
     export -f tr069_v2_log
@@ -75,6 +76,7 @@ function egw_log() {
     ps_ef alarm_log watchdog_alarm_log_timer watchdog_alarm_log_number watchdog_alarm_log_vol watchdog_alarm_log_ctime
     ps_ef vtysh_log watchdog_vtysh_log_timer watchdog_vtysh_log_number watchdog_vtysh_log_vol watchdog_vtysh_log_ctime
     ps_ef vtyhistory_log watchdog_vtyhistory_log_timer watchdog_vtyhistory_log_number watchdog_vtyhistory_log_vol watchdog_vtyhistory_log_ctime
+    ps_ef enbinfo_log watchdog_enbinfo_log_timer watchdog_enbinfo_log_number watchdog_enbinfo_log_vol watchdog_enbinfo_log_ctime
     ps_ef history_log watchdog_history_log_timer watchdog_history_log_number watchdog_history_log_vol watchdog_history_log_ctime
     ps_ef tr069_v2_log watchdog_tr069_v2_log_timer watchdog_tr069_v2_log_number watchdog_tr069_v2_log_vol watchdog_tr069_v2_log_ctime
     ps_ef ftp_func_log watchdog_ftp_func_log_timer watchdog_ftp_func_log_number watchdog_ftp_func_log_vol watchdog_ftp_func_log_ctime
