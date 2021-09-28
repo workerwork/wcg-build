@@ -6,7 +6,7 @@
 
 2)需要执行权限的要手动添加执行权限
 
-### 运行./make_rpm.sh -v x.x.x -r x
+### 运行./make_rpm.sh -v x.x.x
 
 Usage:
     -v/--version 1.0.0(可选)
