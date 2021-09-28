@@ -77,10 +77,10 @@ function setversion_egw() {
     release=$(echo $version_input|awk -F. '{print $4}')
     release=${release:-"0"}
     #echo "version=$version release=$release"
-    if [[ ! $release ]];then
-        sed -i "s/\(Release:\).*%/\1    1%/" $spec
+    if [[ ! $version ]];then
+        sed -i "s/\(Version:\).*/\1    1.0.0/" $spec
     else
-        sed -i "s/\(Release:\).*%/\1    $release%/" $spec
+        sed -i "s/\(Version:\).*/\1    $version/" $spec
     fi
     if [[ ! $release ]];then
         sed -i "s/\(Release:\).*%/\1    1%/" $spec
