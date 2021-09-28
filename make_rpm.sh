@@ -65,29 +65,29 @@ function makerpm_egw() {
     #elif [[ $spec == "SPECS/egw_base.spec" ]];then
     #    mv -f RPMS/x86_64/$name-$version-$release*.rpm .
     #fi
-    mv -f RPMS/x86_64/$name-$version-$release*.rpm .
+    mv -f RPMS/x86_64/$name-$version-$release*.rpm ./BaiWCG_${version_input}.centos.x86_64.rpm
     rm -f RPMS/x86_64/*.rpm
     rm -f SOURCES/$name-$version.tar.gz
 }
 
 function setversion_egw() {
     spec=$1
-    version=$2
-    if [[ ! $version ]];then
-        sed -i "s/\(Version:\).*/\1    1.0.0/" $spec
-    else
-        sed -i "s/\(Version:\).*/\1    $version/" $spec
-    fi
-}
-
-function setrelease_egw() {
-    spec=$1
-    release=$2
+    version_input=$2
+    version=$(echo $version_input|awk -F. '{print $1"."$2"."$3}')
+    release=$(echo $version_input|awk -F. '{print $4}')
+    release=${release:-"0"}
+    #echo "version=$version release=$release"
     if [[ ! $release ]];then
         sed -i "s/\(Release:\).*%/\1    1%/" $spec
     else
         sed -i "s/\(Release:\).*%/\1    $release%/" $spec
     fi
+    if [[ ! $release ]];then
+        sed -i "s/\(Release:\).*%/\1    1%/" $spec
+    else
+        sed -i "s/\(Release:\).*%/\1    $release%/" $spec
+    fi
+
 }
 
 function setgpgkey() {
@@ -96,11 +96,11 @@ function setgpgkey() {
 }
 
 function addsign() {
-    rpmname=$(find . -maxdepth 1 -name "$name-$version-$release*.rpm")
+    #rpmname=$(find . -maxdepth 1 -name "$name-$version-$release*.rpm")
     expect << EOF
     set timeout 5
     #set rpmname [lindex $argv 0]
-    spawn rpm --addsign $rpmname
+    spawn rpm --addsign BaiWCG_${version_input}.centos.x86_64.rpm
     expect {
         "Enter pass phrase: " { send "baicells\r" }  
         "输入密码：" { send "baicells\r" }  
@@ -113,7 +113,6 @@ function init() {
     spec=$1
     setrpmmacro
     setversion_egw $spec
-    setrelease_egw $spec
     setgpgkey
 }
 
@@ -124,7 +123,7 @@ init SPECS/egw.spec
 init SPECS/egw_base.spec
 init SPECS/egw_India.spec
 
-ARGS=`getopt -o hbv:s:r: --long help,base,India,version,sign:,release: -- "$@"`
+ARGS=`getopt -o hbv:s: --long help,base,India,version,sign: -- "$@"`
 if [ $? != 0 ] ; then echo "Terminating..." >&2 ; exit 1 ; fi
 eval set -- "$ARGS"
 while true;do
@@ -132,12 +131,6 @@ while true;do
         -s|--sign)
             #echo "-s | --sign"
             setrpmmacro "$2"
-            shift 2
-            ;;
-        -r|--release)
-            setrelease_egw SPECS/egw.spec $2
-            setrelease_egw SPECS/egw_base.spec $2
-            setrelease_egw SPECS/egw_India.spec $2
             shift 2
             ;;
         -v|--version)
