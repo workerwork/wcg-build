@@ -4,7 +4,7 @@
 # version:5.0
 # update:20210520
 ##########################################################################################
-LOG_PATH="$LOG_DIR/keepalived"
+LOG_PATH="/var/log/eGW/keepalived"
 HA_STATUS="/usr/lib/eGW/.ha.status"
 NOTIFY=$1
 
