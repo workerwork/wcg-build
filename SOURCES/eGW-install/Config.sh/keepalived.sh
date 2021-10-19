@@ -4,8 +4,8 @@
 # version:5.0
 # update:20210520
 ##########################################################################################
-LOG_PATH="/var/log/eGW/keepalived"
-HA_STATUS="/usr/lib/eGW/.ha.status"
+LOG_PATH=${LOG_DIR:-"/var/log/eGW"}/keepalived
+HA_STATUS=${LIB_DIR:-"/usr/lib/eGW"}/.ha.status
 NOTIFY=$1
 
 function keepalived() {
