@@ -61,7 +61,7 @@ function start_tr069_v2() {
 }
 
 function start_ltegwd() {
-    export exec_ltegwd="$LIB_DIR/ltegwd 4"
+    export exec_ltegwd="$LIB_DIR/ltegwd"
     $exec_ltegwd &
 }
 
