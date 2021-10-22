@@ -157,7 +157,7 @@ function monitor_log() {
 
 function alarm_log() {
     local path="$LOG_DIR/omcapi/alarm"
-    local pattern="alarm.log_*"
+    local pattern="egw_alarm.log_*"
     local num="0"
     compress_log $path $pattern $num
     del_log $path ${pattern}.tgz $1 $2 $3 "alarm_log"
