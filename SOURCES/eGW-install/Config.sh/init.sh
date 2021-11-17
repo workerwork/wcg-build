@@ -15,6 +15,7 @@ function init_dir() {
 }
 
 function init_net() {
+    modprobe 8021q
     if [[ -f $NET_CONF ]];then
         while read line
         do
