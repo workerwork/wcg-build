@@ -43,7 +43,7 @@ function del_log() {
     local log_name=$6
     local options=$7
     local log_time=$log_ctime
-    # 单位 k
+    # 单位k,du命令输出单位为k
     local disk=$(du -s $log_path|awk '{print $1}')
     local state=$($redisShort hget eGW-status eGW-log-state-$log_name)
     if [[ $disk -gt $log_vol ]];then
