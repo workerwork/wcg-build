@@ -44,6 +44,7 @@ function keepalived_log() {
 
 function to_master() {
     echo "MASTER" > $HA_STATUS
+    sleep 0.5
     systemctl restart monitor
     keepalived_log "master" "start"
 }
